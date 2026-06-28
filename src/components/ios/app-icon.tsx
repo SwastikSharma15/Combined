@@ -67,9 +67,13 @@ export function AppIcon({ id, name, color, icon, customIcon, size = "normal" }: 
       )
     }
 
+    if (id === "contact") return <img src="/images/contact.webp" className="w-full h-full object-cover rounded-[inherit]" alt="Contact" />
+    if (id === "games") return <img src="/images/game.webp" className="w-full h-full object-cover rounded-[inherit]" alt="Games" />
+    if (id === "finder") return <img src="/images/finder.png" className="w-full h-full object-contain p-1 bg-white rounded-[inherit]" alt="Finder" />
+
     if (customIcon) return customIcon
     if (icon) return <div className="text-2xl">{icon}</div>
-    return <div className="flex items-center justify-center w-full h-full">{name[0].toUpperCase()}</div>
+    return <div className="flex items-center justify-center w-full h-full text-white">{name[0].toUpperCase()}</div>
   }
 
   return (
