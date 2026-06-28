@@ -22,6 +22,11 @@ export function HomeIndicator({ children }: HomeIndicatorProps) {
     }
 
     const handleTouchMove = (e: TouchEvent) => {
+      const windowHeight = window.innerHeight;
+      const isBottom20 = touchStartY > windowHeight * 0.85;
+
+      if (!isBottom20) return;
+
       const touchY = e.touches[0].clientY
       const diff = touchStartY - touchY
 

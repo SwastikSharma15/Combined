@@ -22,15 +22,16 @@ export function HomeScreen({ time }: HomeScreenProps) {
     { id: "calendar", name: "Calendar", color: "" },
     { id: "photos", name: "Photos", color: "bg-gradient-to-br from-pink-400 via-purple-400 to-blue-400" },
     { id: "camera", name: "Camera", color: "bg-gray-800" },
-    { id: "mail", name: "Mail", color: "bg-blue-500" },
+    { id: "contact", name: "Contact", color: "bg-blue-500" },
     { id: "notes", name: "Notes", color: "bg-yellow-100" },
-    { id: "reminders", name: "Reminders", color: "bg-white" },
-    { id: "clock", name: "Clock", color: "bg-black" },
+    { id: "games", name: "Games", color: "bg-purple-500" },
+    { id: "finder", name: "Finder", color: "bg-blue-300", customIcon: <img src="/images/finder.png" className="w-full h-full object-contain p-1" alt="Finder" /> },
   ]
 
   const defaultPage2Apps = [
-    { id: "maps", name: "Maps", color: "" },
     { id: "settings", name: "Settings", color: "bg-gray-200" },
+    { id: "calculator", name: "Calculator", color: "bg-[#ff9f0a]", customIcon: <div className="text-2xl text-white flex items-center justify-center w-full h-full">±</div> },
+    { id: "maps", name: "Maps", color: "bg-white" },
     { id: "appstore", name: "App Store", color: "" },
   ]
 
