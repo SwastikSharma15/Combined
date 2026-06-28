@@ -20,11 +20,11 @@ interface AppCategory {
 // App categories based on functionality
 const appCategories: AppCategory[] = [
   {
-    id: "lifestyle",
-    name: "Lifestyle",
+    id: "productivity",
+    name: "Productivity",
     apps: [
-      { id: "health", name: "Health", color: "bg-gradient-to-br from-pink-400 to-red-500", icon: "health" },
-      { id: "reminders", name: "Reminders", color: "bg-white", icon: "reminders" },
+      { id: "calendar", name: "Calendar", color: "", icon: "calendar" },
+      { id: "notes", name: "Notes", color: "bg-yellow-100", icon: "notes" },
       { id: "clock", name: "Clock", color: "bg-black", icon: "clock" },
     ],
   },
@@ -33,31 +33,15 @@ const appCategories: AppCategory[] = [
     name: "Utilities",
     apps: [
       { id: "settings", name: "Settings", color: "bg-gray-200", icon: "settings" },
-      { id: "wallet", name: "Wallet", color: "bg-gradient-to-b from-yellow-400 to-red-500", icon: "wallet" },
       { id: "maps", name: "Maps", color: "", icon: "maps" },
-    ],
-  },
-  {
-    id: "information",
-    name: "Information",
-    apps: [
-      { id: "calendar", name: "Calendar", color: "", icon: "calendar" },
-      { id: "news", name: "News", color: "bg-gradient-to-br from-red-500 to-pink-500", icon: "news" },
-      { id: "notes", name: "Notes", color: "bg-yellow-100", icon: "notes" },
-    ],
-  },
-  {
-    id: "media",
-    name: "Media",
-    apps: [
-      { id: "podcasts", name: "Podcasts", color: "", icon: "podcasts" },
-      { id: "tv", name: "TV", color: "", icon: "tv" },
-      { id: "music", name: "Music", color: "", icon: "music" },
+      { id: "finder", name: "Finder", color: "bg-blue-300", icon: "finder" },
+      { id: "contact", name: "Contact", color: "bg-blue-500", icon: "contact" },
+      { id: "calculator", name: "Calculator", color: "bg-[#ff9f0a]", icon: "calculator" },
     ],
   },
   {
     id: "creativity",
-    name: "Creativity",
+    name: "Creativity & Games",
     apps: [
       { id: "camera", name: "Camera", color: "bg-gray-800", icon: "camera" },
       {
@@ -66,16 +50,17 @@ const appCategories: AppCategory[] = [
         color: "bg-gradient-to-br from-pink-400 via-purple-400 to-blue-400",
         icon: "photos",
       },
+      { id: "games", name: "Games", color: "bg-purple-500", icon: "games" },
     ],
   },
   {
     id: "connectivity",
-    name: "Connectivity",
+    name: "Connectivity & Media",
     apps: [
       { id: "phone", name: "Phone", color: "bg-green-500", icon: "phone" },
       { id: "messages", name: "Messages", color: "", icon: "messages" },
-      { id: "facetime", name: "FaceTime", color: "", icon: "facetime" },
-      { id: "mail", name: "Mail", color: "", icon: "mail" },
+      { id: "safari", name: "Safari", color: "", icon: "safari" },
+      { id: "music", name: "Music", color: "", icon: "music" },
     ],
   },
 ]
@@ -100,11 +85,11 @@ export function AppLibrary({ isVisible, onClose }: AppLibraryProps) {
   // Filter apps based on search query
   const filteredCategories = searchQuery
     ? appCategories
-        .map((category) => ({
-          ...category,
-          apps: category.apps.filter((app) => app.name.toLowerCase().includes(searchQuery.toLowerCase())),
-        }))
-        .filter((category) => category.apps.length > 0)
+      .map((category) => ({
+        ...category,
+        apps: category.apps.filter((app) => app.name.toLowerCase().includes(searchQuery.toLowerCase())),
+      }))
+      .filter((category) => category.apps.length > 0)
     : appCategories
 
   return (
@@ -135,13 +120,17 @@ export function AppLibrary({ isVisible, onClose }: AppLibraryProps) {
           }}
           onDragEnd={(event, info) => {
             // Close the app library if swiped right (positive x offset)
-            if (info.offset.x > 50 || info.velocity.x > 500) {
+            if (info.offset.x > 80 || info.velocity.x > 300) {
               onClose()
+            } else {
+              // Reset drag position
+              dragX.set(0)
             }
-            // Reset drag position
-            dragX.set(0)
           }}
         >
+          {/* Edge drag target for reliable swiping on mobile */}
+          <div className="absolute top-0 left-0 bottom-0 w-6 z-[100]" />
+
           {/* Search Bar */}
           <div className="px-4 pt-14 pb-4">
             <div className="relative">
