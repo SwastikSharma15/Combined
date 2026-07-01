@@ -19,7 +19,7 @@ export const ContactApp = () => {
   const submitToBothEndpoints = async (formData: any) => {
     setSubmitting(true)
     setResult('Sending message...')
-    
+
     const submitToEndpoint = async (accessKey: string) => {
       try {
         const response = await fetch('https://api.web3forms.com/submit', {
@@ -61,7 +61,7 @@ export const ContactApp = () => {
       return () => clearTimeout(t)
     }
   }, [isSuccess, showModal])
-  
+
   return (
     <div className='flex-1 w-full bg-[#f2f2f7] min-h-full pb-20'>
       {/* Profile Header section */}
@@ -70,7 +70,7 @@ export const ContactApp = () => {
           src='/images/swastik_2.jpeg'
           alt='Swastik'
           loading='lazy'
-          className='w-28 h-28 object-cover rounded-full shadow-md border-2 border-white'
+          className='w-28 h-28 object-cover object-top rounded-full shadow-md border-2 border-white'
         />
         <h2 className="text-2xl font-semibold mt-4 text-black">Swastik Sharma</h2>
         <p className="text-[#8e8e93] text-sm mt-1">Open for work & collaboration</p>
@@ -88,8 +88,8 @@ export const ContactApp = () => {
               <a href={`mailto:${email}`} className="text-sm text-[#007aff]">{email}</a>
             </div>
           </div>
-          
-          <button 
+
+          <button
             onClick={() => {
               setIsSuccess(false)
               setResult('')
@@ -112,15 +112,15 @@ export const ContactApp = () => {
       <div className="px-4 mt-6">
         <h3 className="text-[13px] text-[#6d6d72] uppercase font-normal ml-4 mb-2 tracking-wide">Social Networks</h3>
         <div className="bg-white rounded-[10px] overflow-hidden">
-          {socials.map(({id, bg, link, icon, text}, index) => (
-            <a 
+          {socials.map(({ id, bg, link, icon, text }, index) => (
+            <a
               key={id}
-              href={link} 
-              target='_blank' 
+              href={link}
+              target='_blank'
               rel='noopener noreferrer'
               className={`flex items-center gap-3 px-4 py-3 active:bg-gray-100 transition-colors ${index !== socials.length - 1 ? 'border-b border-gray-200/60' : ''}`}
             >
-              <div 
+              <div
                 className="w-7 h-7 rounded-md flex items-center justify-center"
                 style={{ backgroundColor: bg }}
               >
@@ -205,9 +205,9 @@ export const ContactApp = () => {
                 {(errors.name || errors.email || errors.message || result) && (
                   <div className='px-4'>
                     <p className={`text-sm text-center ${isSuccess ? 'text-[#34c759]' : 'text-[#ff3b30]'}`}>
-                      {errors.name ? String(errors.name.message) : 
-                       errors.email ? String(errors.email.message) : 
-                       errors.message ? String(errors.message.message) : result}
+                      {errors.name ? String(errors.name.message) :
+                        errors.email ? String(errors.email.message) :
+                          errors.message ? String(errors.message.message) : result}
                     </p>
                   </div>
                 )}
