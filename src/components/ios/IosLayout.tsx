@@ -90,7 +90,7 @@ export default function IosLayout() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.2 }}
-                className="absolute inset-0"
+                className="absolute inset-0 pointer-events-auto z-10"
               >
                 <ActiveApp />
               </motion.div>

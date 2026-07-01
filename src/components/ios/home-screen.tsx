@@ -37,29 +37,51 @@ export function HomeScreen({ time }: HomeScreenProps) {
 
   const [page1Apps, setPage1Apps] = useState(() => {
     if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('ios-page1-apps')
-      if (saved) return JSON.parse(saved)
+      const saved = localStorage.getItem('ios-page1-apps-v3')
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          return parsed.map((app: any) => {
+            const defaultApp = defaultPage1Apps.find(a => a.id === app.id);
+            return { ...app, customIcon: defaultApp?.customIcon };
+          });
+        } catch (e) {
+          return defaultPage1Apps;
+        }
+      }
     }
     return defaultPage1Apps
   })
 
   const [page2Apps, setPage2Apps] = useState(() => {
     if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('ios-page2-apps')
-      if (saved) return JSON.parse(saved)
+      const saved = localStorage.getItem('ios-page2-apps-v3')
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          return parsed.map((app: any) => {
+            const defaultApp = defaultPage2Apps.find(a => a.id === app.id);
+            return { ...app, customIcon: defaultApp?.customIcon };
+          });
+        } catch (e) {
+          return defaultPage2Apps;
+        }
+      }
     }
     return defaultPage2Apps
   })
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('ios-page1-apps', JSON.stringify(page1Apps))
+      const toSave = page1Apps.map(({ customIcon, ...rest }) => rest);
+      localStorage.setItem('ios-page1-apps-v3', JSON.stringify(toSave))
     }
   }, [page1Apps])
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('ios-page2-apps', JSON.stringify(page2Apps))
+      const toSave = page2Apps.map(({ customIcon, ...rest }) => rest);
+      localStorage.setItem('ios-page2-apps-v3', JSON.stringify(toSave))
     }
   }, [page2Apps])
 
