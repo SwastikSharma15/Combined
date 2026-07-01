@@ -894,8 +894,8 @@ body {
   padding-top: calc(34px + 0.5rem);
 }
 
-/* Custom range input styling */
-input[type="range"] {
+/* Custom range input styling for iOS */
+.mobile-view input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
   height: 4px;
@@ -903,7 +903,7 @@ input[type="range"] {
   outline: none;
 }
 
-input[type="range"]::-webkit-slider-thumb {
+.mobile-view input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 18px;
@@ -913,7 +913,7 @@ input[type="range"]::-webkit-slider-thumb {
   cursor: pointer;
 }
 
-input[type="range"]::-moz-range-thumb {
+.mobile-view input[type="range"]::-moz-range-thumb {
   width: 18px;
   height: 18px;
   border-radius: 50%;

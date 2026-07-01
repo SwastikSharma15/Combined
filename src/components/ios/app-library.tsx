@@ -108,15 +108,16 @@ export function AppLibrary({ isVisible, onClose }: AppLibraryProps) {
           className="absolute inset-0 bg-white/40 backdrop-blur-xl z-50 select-none"
           drag="x"
           dragConstraints={{ left: 0, right: 0 }}
-          dragElastic={0.1}
+          dragElastic={{ left: 0.05, right: 1 }}
+          dragDirectionLock
           dragTransition={{
             bounceStiffness: 600,
             bounceDamping: 30,
           }}
           style={{
             x: dragX,
-            opacity: isNaN(opacity.get()) ? 1 : opacity.get(),
-            scale: scale.get(),
+            opacity,
+            scale,
           }}
           onDragEnd={(event, info) => {
             // Close the app library if swiped right (positive x offset)
@@ -128,8 +129,7 @@ export function AppLibrary({ isVisible, onClose }: AppLibraryProps) {
             }
           }}
         >
-          {/* Edge drag target for reliable swiping on mobile */}
-          <div className="absolute top-0 left-0 bottom-0 w-6 z-[100]" />
+
 
           {/* Search Bar */}
           <div className="px-4 pt-14 pb-4">
@@ -146,30 +146,18 @@ export function AppLibrary({ isVisible, onClose }: AppLibraryProps) {
           </div>
 
           {/* App Categories Grid */}
-          <div className="px-4 pb-4 overflow-auto h-[calc(100%-6rem)]">
+          <div 
+            className="px-4 pb-4 overflow-y-auto overflow-x-hidden h-[calc(100%-6rem)]"
+            style={{ touchAction: "pan-y" }}
+          >
             <div className="grid grid-cols-2 gap-4">
               {filteredCategories.map((category) => (
                 <div key={category.id} className="space-y-1">
                   <div className="relative aspect-square bg-black/5 backdrop-blur-xl rounded-2xl p-2 overflow-hidden">
                     <div className="grid grid-cols-2 gap-2 h-full">
-                      {category.apps.map((app, index) => (
-                        <div
-                          key={app.id}
-                          className={cn(
-                            "relative",
-                            index === 3 && category.apps.length > 4 && "grid grid-cols-3 gap-0.5",
-                          )}
-                        >
+                      {category.apps.slice(0, 4).map((app) => (
+                        <div key={app.id} className="relative">
                           <AppIcon id={app.id} name={app.name} color={app.color} icon={app.icon} size="small" />
-                          {index === 3 &&
-                            category.apps.slice(4).map((extraApp) => (
-                              <div
-                                key={extraApp.id}
-                                className="aspect-square rounded-lg bg-gray-200 text-[8px] flex items-center justify-center"
-                              >
-                                {extraApp.name[0]}
-                              </div>
-                            ))}
                         </div>
                       ))}
                     </div>

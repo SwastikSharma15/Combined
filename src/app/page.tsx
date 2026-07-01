@@ -11,6 +11,7 @@ const Home = lazy(() => import('#components/macos/Home'))
 
 // Lazy load iOS Layout
 const IosLayout = lazy(() => import('#components/ios/IosLayout'))
+const IosAppWrapper = lazy(() => import('#components/ios/IosAppWrapper'))
 
 const Finder = lazy(() => import('#windows/Finder'))
 const Resume = lazy(() => import('#windows/Resume'))
@@ -115,6 +116,8 @@ const App = () => {
           {windows['game']?.isOpen && <Suspense fallback={null}><Game /></Suspense>}
           {windows['vscode']?.isOpen && <Suspense fallback={null}><VSCode /></Suspense>}
           {windows['trash']?.isOpen && <Suspense fallback={null}><Trash /></Suspense>}
+          
+          {isMobile && <Suspense fallback={null}><IosAppWrapper /></Suspense>}
         </>
       </main>
       

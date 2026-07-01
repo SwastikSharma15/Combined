@@ -22,7 +22,6 @@ export function AppIcon({ id, name, color, icon, customIcon, size = "normal" }: 
       "facetime",
       "appstore",
       "music",
-      "calendar",
       "messages",
       "podcasts",
       "safari",
@@ -70,6 +69,29 @@ export function AppIcon({ id, name, color, icon, customIcon, size = "normal" }: 
     if (id === "contact") return <img src="/images/contact.webp" className="w-full h-full object-cover rounded-[inherit]" alt="Contact" />
     if (id === "games") return <img src="/images/game.webp" className="w-full h-full object-cover rounded-[inherit]" alt="Games" />
     if (id === "finder") return <img src="/images/finder.png" className="w-full h-full object-contain p-1 bg-white rounded-[inherit]" alt="Finder" />
+    if (id === "calculator") return <img src="/icons/ios-calculator-app-icon.svg" className="w-full h-full object-cover rounded-[inherit]" alt="Calculator" />
+
+    if (id === "calendar") {
+      const date = new Date()
+      const dayName = date.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase()
+      const dayNumber = date.getDate()
+      
+      return (
+        <div className="relative w-full h-full flex flex-col items-center shadow-inner rounded-[inherit]">
+          {/* iOS squircle background imported from user's SVG */}
+          <img src="/icons/ios-calendar-app-icon.svg" className="absolute inset-0 z-0 w-full h-full object-cover rounded-[inherit]" alt="" />
+          {/* Dynamic text overlay */}
+          <div className="z-10 flex flex-col items-center justify-center w-full h-full pb-[2%] pt-[10%]">
+            <span className={`text-[#FF3B30] font-bold ${size === 'small' ? 'text-[7px]' : 'text-[12px]'}`}>
+              {dayName}
+            </span>
+            <span className={`text-black font-light tracking-tighter ${size === 'small' ? 'text-[18px] mt-[-3px]' : 'text-[36px] mt-[-5px]'}`}>
+              {dayNumber}
+            </span>
+          </div>
+        </div>
+      )
+    }
 
     if (customIcon) return customIcon
     if (icon) return <div className="text-2xl">{icon}</div>
