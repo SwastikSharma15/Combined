@@ -10,7 +10,7 @@ export function FocusModule() {
   return (
     <button
       className={cn(
-        "bg-white/70 backdrop-blur-md rounded-2xl p-3 flex items-center",
+        "bg-white/50 backdrop-blur-md rounded-2xl p-3 flex items-center",
         isFocusActive ? "bg-purple-500/30" : "bg-white/70",
       )}
       onClick={() => setIsFocusActive(!isFocusActive)}
