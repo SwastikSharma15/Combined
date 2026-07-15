@@ -2,9 +2,28 @@ import { immer } from "zustand/middleware/immer";
 import { create } from "zustand";
 import { INITIAL_Z_INDEX, WINDOW_CONFIG } from "#constants";
 
-const useWindowStore = create(
+export type WindowKey = keyof typeof WINDOW_CONFIG;
+
+export interface WindowState {
+  isOpen: boolean;
+  isMinimized: boolean;
+  isMaximized: boolean;
+  zIndex: number;
+  data: any;
+}
+
+interface WindowStoreState {
+  windows: Record<WindowKey, WindowState>;
+  nextZIndex: number;
+  openWindow: (windowKey: WindowKey, data?: any) => void;
+  closeWindow: (windowKey: WindowKey) => void;
+  focusWindow: (windowKey: WindowKey) => void;
+  toggleMaximizeWindow: (windowKey: WindowKey) => void;
+}
+
+const useWindowStore = create<WindowStoreState>()(
   immer((set) => ({
-    windows: WINDOW_CONFIG,
+    windows: WINDOW_CONFIG as Record<WindowKey, WindowState>,
     nextZIndex: INITIAL_Z_INDEX + 1,
     openWindow: (windowKey, data = null) => set((state) => {
       const win = state.windows[windowKey];
