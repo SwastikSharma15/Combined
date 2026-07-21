@@ -32,7 +32,6 @@ export function HomeScreen({ time }: HomeScreenProps) {
     { id: "settings", name: "Settings", color: "bg-gray-200" },
     { id: "calculator", name: "Calculator", color: "bg-[#ff9f0a]", customIcon: <div className="text-2xl text-white flex items-center justify-center w-full h-full">±</div> },
     { id: "maps", name: "Maps", color: "bg-white" },
-    { id: "appstore", name: "App Store", color: "" },
   ]
 
   const [page1Apps, setPage1Apps] = useState(() => {
@@ -101,7 +100,6 @@ export function HomeScreen({ time }: HomeScreenProps) {
       "music",
       "maps",
       "settings",
-      "appstore",
     ]
 
     preloadIcons.forEach((icon) => {
@@ -217,10 +215,10 @@ export function HomeScreen({ time }: HomeScreenProps) {
               </div>
 
               {/* First page app icons using Reorder for drag and drop */}
-              <Reorder.Group 
-                axis="y" 
-                values={page1Apps} 
-                onReorder={setPage1Apps} 
+              <Reorder.Group
+                axis="y"
+                values={page1Apps}
+                onReorder={setPage1Apps}
                 className="grid grid-cols-4 gap-4 mb-6 relative z-10"
               >
                 {page1Apps.map((app) => (
@@ -242,10 +240,10 @@ export function HomeScreen({ time }: HomeScreenProps) {
               transition={{ type: "spring", damping: 20, stiffness: 300 }}
             >
               {/* Second page app icons using Reorder for drag and drop */}
-              <Reorder.Group 
-                axis="y" 
-                values={page2Apps} 
-                onReorder={setPage2Apps} 
+              <Reorder.Group
+                axis="y"
+                values={page2Apps}
+                onReorder={setPage2Apps}
                 className="grid grid-cols-4 gap-4 mb-6 relative z-10"
               >
                 {page2Apps.map((app) => (

@@ -48,7 +48,7 @@ export const AppWrapper = (WrappedComponent: React.ComponentType<any>, options?:
             </div>
           )}
 
-          <div className={`h-full w-full overflow-y-auto ${!hideHeader ? "pt-[90px]" : ""}`}>
+          <div className={`h-full w-full ${hideHeader ? "overflow-hidden" : "overflow-y-auto pt-[90px]"}`}>
             <WrappedComponent {...props} />
           </div>
         </div>

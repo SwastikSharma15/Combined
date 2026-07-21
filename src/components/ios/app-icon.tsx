@@ -20,7 +20,6 @@ export function AppIcon({ id, name, color, icon, customIcon, size = "normal" }: 
   const renderIcon = () => {
     const svgIcons = [
       "facetime",
-      "appstore",
       "music",
       "messages",
       "podcasts",
@@ -75,7 +74,7 @@ export function AppIcon({ id, name, color, icon, customIcon, size = "normal" }: 
       const date = new Date()
       const dayName = date.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase()
       const dayNumber = date.getDate()
-      
+
       return (
         <div className="relative w-full h-full flex flex-col items-center shadow-inner rounded-[inherit]">
           {/* iOS squircle background imported from user's SVG */}
