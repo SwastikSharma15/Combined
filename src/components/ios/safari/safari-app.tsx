@@ -1,292 +1,75 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
-import { motion } from "framer-motion"
-import { ArrowLeft, ArrowRight, Share, BookOpen, Square, Lock, RotateCcw } from "lucide-react"
-import { useLocalStorage } from "@/lib/use-local-storage"
-import { TabSwitcher } from "./tab-switcher"
-import { ShareMenu } from "./share-menu"
-import { BookmarksView } from "./bookmarks-view"
-import { SafariError } from "./safari-error"
+import { ArrowRight, BookOpen, Lock } from "lucide-react"
+import { blogPosts } from "@/constants"
 import { HomeIndicator } from "@/components/ios/home-indicator"
-import { VercelWebsite } from "./mock-websites/vercel-website"
-import { GoogleWebsite } from "./mock-websites/google-website"
-
-const MOCK_WEBSITES = {
-  "vercel.com": "vercel",
-  "www.vercel.com": "vercel",
-  "google.com": "google",
-  "www.google.com": "google",
-}
-
-interface Tab {
-  id: string
-  url: string
-  title: string
-  isLoading: boolean
-}
 
 export function SafariApp() {
-  const [tabs, setTabs] = useLocalStorage<Tab[]>("safari-tabs", [
-    {
-      id: "1",
-      url: "https://vercel.com",
-      title: "Vercel: Cloud Application Platform",
-      isLoading: false,
-    },
-  ])
-  const [activeTabId, setActiveTabId] = useLocalStorage<string>("safari-active-tab", "1")
-  const [showTabs, setShowTabs] = useState(false)
-  const [showShare, setShowShare] = useState(false)
-  const [showBookmarks, setShowBookmarks] = useState(false)
-  const [urlInput, setUrlInput] = useState("")
-  const [isEditing, setIsEditing] = useState(false)
-  const [loadError, setLoadError] = useState(false)
-  const webviewRef = useRef<HTMLIFrameElement>(null)
-
-  const activeTab = tabs.find((tab) => tab.id === activeTabId)
-
-  useEffect(() => {
-    if (activeTab) {
-      setUrlInput(activeTab.url)
-    }
-  }, [activeTab])
-
-  const handleNewTab = () => {
-    const newTab: Tab = {
-      id: Date.now().toString(),
-      url: "https://vercel.com",
-      title: "New Tab",
-      isLoading: true,
-    }
-    setTabs([...tabs, newTab])
-    setActiveTabId(newTab.id)
-    setShowTabs(false)
-  }
-
-  const handleCloseTab = (tabId: string) => {
-    const newTabs = tabs.filter((tab) => tab.id !== tabId)
-    if (newTabs.length === 0) {
-      handleNewTab()
-    } else if (activeTabId === tabId) {
-      setActiveTabId(newTabs[newTabs.length - 1].id)
-    }
-    setTabs(newTabs)
-  }
-
-  const handleNavigate = (url: string) => {
-    // Check if input is a URL or a search query
-    const isUrl = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/.test(url)
-
-    if (isUrl) {
-      // Add https:// if not present
-      if (!url.startsWith("http://") && !url.startsWith("https://")) {
-        url = "https://" + url
-      }
-    } else {
-      // Treat as a search query
-      url = `https://www.google.com/search?q=${encodeURIComponent(url)}`
-    }
-
-    const updatedTabs = tabs.map((tab) =>
-      tab.id === activeTabId
-        ? {
-            ...tab,
-            url,
-            isLoading: true,
-          }
-        : tab,
-    )
-    setTabs(updatedTabs)
-    setIsEditing(false)
-    setLoadError(false)
-
-    // Simulate loading
-    setTimeout(() => {
-      const updatedTabs = tabs.map((tab) =>
-        tab.id === activeTabId
-          ? {
-              ...tab,
-              isLoading: false,
-              title: getMockTitle(url),
-            }
-          : tab,
-      )
-      setTabs(updatedTabs)
-    }, 500)
-  }
-
-  const getMockTitle = (url: string) => {
-    const hostname = new URL(url).hostname
-
-    if (hostname === "vercel.com" || hostname === "www.vercel.com") {
-      return "Vercel: Cloud Application Platform"
-    }
-
-    if (hostname === "google.com" || hostname === "www.google.com") {
-      return "Google"
-    }
-
-    if (url.includes("google.com/search")) {
-      const params = new URLSearchParams(new URL(url).search)
-      const query = params.get("q")
-      return query ? `${query} - Google Search` : "Google Search"
-    }
-
-    return hostname
-  }
-
-  const getMockWebsite = () => {
-    if (!activeTab) return null
-
-    const url = new URL(activeTab.url)
-    const hostname = url.hostname.toLowerCase()
-
-    // Check if we have a mock for this website
-    const mockType = Object.entries(MOCK_WEBSITES).find(
-      ([domain]) => hostname === domain || hostname.endsWith(`.${domain}`),
-    )?.[1]
-
-    switch (mockType) {
-      case "vercel":
-        return <VercelWebsite />
-      case "google":
-        return <GoogleWebsite />
-      default:
-        // For URLs we don't have mocks for, show the error page
-        return <SafariError url={activeTab.url} onRetry={() => handleNavigate(activeTab.url)} />
-    }
-  }
-
-  const handleRefresh = () => {
-    if (activeTab) {
-      const updatedTabs = tabs.map((tab) =>
-        tab.id === activeTabId
-          ? {
-              ...tab,
-              isLoading: true,
-            }
-          : tab,
-      )
-      setTabs(updatedTabs)
-
-      // Simulate loading
-      setTimeout(() => {
-        const updatedTabs = tabs.map((tab) =>
-          tab.id === activeTabId
-            ? {
-                ...tab,
-                isLoading: false,
-              }
-            : tab,
-        )
-        setTabs(updatedTabs)
-      }, 500)
-    }
-  }
-
   return (
     <HomeIndicator>
-      <div className="h-full w-full bg-white flex flex-col">
-        {/* Web View */}
-        <div className="flex-1 overflow-hidden pt-12">{getMockWebsite()}</div>
-
-        {/* Bottom Bar */}
-        <motion.div
-          initial={false}
-          animate={{ y: showTabs || showShare || showBookmarks ? 300 : 0 }}
-          className="bg-white/80 backdrop-blur-xl border-t"
-        >
-          {/* URL/Search Bar */}
-          <div className="flex items-center gap-2 mx-4 my-2 bg-gray-100 rounded-lg px-3 py-1">
-            {activeTab?.isLoading ? (
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
-              >
-                <RotateCcw className="h-4 w-4 text-gray-400" />
-              </motion.div>
-            ) : (
-              <button onClick={handleRefresh}>
-                <Lock className="h-4 w-4 text-gray-400" />
-              </button>
-            )}
-            <input
-              type="text"
-              value={isEditing ? urlInput : activeTab?.url || ""}
-              onChange={(e) => setUrlInput(e.target.value)}
-              onFocus={() => setIsEditing(true)}
-              onBlur={() => setIsEditing(false)}
-              onKeyDown={(e) => e.key === "Enter" && handleNavigate(urlInput)}
-              className="flex-1 bg-transparent text-sm outline-none"
-              placeholder="Search or enter website name"
-            />
+      <div className="h-full w-full bg-[#f2f2f7] flex flex-col text-black">
+        {/* Safari Top Bar */}
+        <div className="bg-white/80 backdrop-blur-xl border-b border-gray-200 px-4 pt-12 pb-3 sticky top-0 z-10">
+          <div className="flex items-center gap-2 bg-gray-100 rounded-lg px-3 py-1.5 justify-center max-w-md mx-auto">
+            <Lock className="h-3.5 w-3.5 text-gray-400" />
+            <span className="text-xs text-gray-500 font-medium select-none truncate">
+              swastiksharma15.github.io/blogs
+            </span>
           </div>
+        </div>
 
-          {/* Toolbar */}
-          <div className="flex items-center justify-between px-6 py-2">
-            <div className="flex gap-8">
-              <button
-                onClick={() => {
-                  // Simulate back navigation
-                  if (activeTab) {
-                    handleNavigate(activeTab.url)
-                  }
-                }}
-              >
-                <ArrowLeft className="h-5 w-5 text-blue-500" />
-              </button>
-              <button
-                onClick={() => {
-                  // Simulate forward navigation
-                  if (activeTab) {
-                    handleNavigate(activeTab.url)
-                  }
-                }}
-              >
-                <ArrowRight className="h-5 w-5 text-blue-500" />
-              </button>
-            </div>
-            <div className="flex gap-8">
-              <button onClick={() => setShowShare(true)}>
-                <Share className="h-5 w-5 text-blue-500" />
-              </button>
-              <button onClick={() => setShowBookmarks(true)}>
-                <BookOpen className="h-5 w-5 text-blue-500" />
-              </button>
-              <button onClick={() => setShowTabs(true)}>
-                <Square className="h-5 w-5 text-blue-500" />
-              </button>
+        {/* Scrollable Blog Content */}
+        <div className="flex-1 overflow-y-auto px-4 py-6 flex flex-col gap-6">
+          <div className="max-w-md mx-auto w-full">
+            <h1 className="text-2xl font-bold tracking-tight mb-1 text-gray-900 flex items-center gap-2">
+              <BookOpen className="h-6 w-6 text-[#FF9500]" />
+              My Developer Blogs
+            </h1>
+            <p className="text-xs text-gray-500 mb-6">
+              Insights, tutorials, and articles about modern frontend engineering.
+            </p>
+
+            <div className="flex flex-col gap-4">
+              {blogPosts.map(({ id, image, title, date, link }) => (
+                <div
+                  key={id}
+                  className="bg-white rounded-2xl border border-gray-200/50 p-3 shadow-sm hover:shadow-md transition-all flex items-start gap-4"
+                >
+                  {/* Blog Image */}
+                  <div className="relative w-20 h-20 flex-shrink-0 overflow-hidden bg-gray-100 rounded-lg border border-gray-100">
+                    <img
+                      src={image}
+                      alt={title}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+
+                  {/* Blog Content */}
+                  <div className="flex-1 flex flex-col justify-between min-h-[80px]">
+                    <div className="flex flex-col gap-1">
+                      <span className="text-[9px] font-bold uppercase tracking-wider text-gray-400">
+                        {date}
+                      </span>
+                      <h3 className="font-semibold text-gray-800 text-xs leading-snug line-clamp-2">
+                        {title}
+                      </h3>
+                    </div>
+                    <a
+                      href={link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[11px] font-semibold text-blue-600 hover:text-blue-500 flex items-center gap-0.5 mt-2 self-start"
+                    >
+                      <span>Read post</span>
+                      <ArrowRight className="h-3 w-3" />
+                    </a>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
-        </motion.div>
-
-        {/* Tab Switcher */}
-        <TabSwitcher
-          isVisible={showTabs}
-          tabs={tabs}
-          activeTabId={activeTabId}
-          onClose={handleCloseTab}
-          onSelect={(id) => {
-            setActiveTabId(id)
-            setShowTabs(false)
-          }}
-          onNew={handleNewTab}
-          onDismiss={() => setShowTabs(false)}
-        />
-
-        {/* Share Menu */}
-        <ShareMenu isVisible={showShare} url={activeTab?.url || ""} onDismiss={() => setShowShare(false)} />
-
-        {/* Bookmarks View */}
-        <BookmarksView
-          isVisible={showBookmarks}
-          onSelect={(url) => {
-            handleNavigate(url)
-            setShowBookmarks(false)
-          }}
-          onDismiss={() => setShowBookmarks(false)}
-        />
+        </div>
       </div>
     </HomeIndicator>
   )
