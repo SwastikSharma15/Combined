@@ -54,13 +54,23 @@ body {
 }
 
 @keyframes accordion-down {
-  from { height: 0; }
-  to { height: var(--radix-accordion-content-height); }
+  from {
+    height: 0;
+  }
+
+  to {
+    height: var(--radix-accordion-content-height);
+  }
 }
 
 @keyframes accordion-up {
-  from { height: var(--radix-accordion-content-height); }
-  to { height: 0; }
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+
+  to {
+    height: 0;
+  }
 }
 
 @utility flex-center {
@@ -84,7 +94,7 @@ body {
   .window-drag-handle {
     cursor: grab !important;
   }
-  
+
   .window-drag-handle:active {
     cursor: grabbing !important;
   }
@@ -103,8 +113,9 @@ body {
     .portfolio-wrapper {
       position: relative;
       display: inline-block;
-      user-select: none; /* Prevent text selection during drag */
-      
+      user-select: none;
+      /* Prevent text selection during drag */
+
       /* Ensure visible on mobile */
       @media (max-width: 640px) {
         display: inline-block !important;
@@ -153,17 +164,17 @@ body {
     .logo-portfolio-container {
       @apply flex items-center gap-5;
       user-select: none;
-      
+
       /* Make smaller on mobile but keep on left */
       @media (max-width: 640px) {
         display: flex !important;
         gap: 0.75rem;
-        
+
         img {
           width: 24px;
           height: 24px;
         }
-        
+
         .portfolio-text {
           font-size: 0.875rem;
         }
@@ -176,8 +187,10 @@ body {
       border-radius: 0.375rem;
       background-color: transparent;
       pointer-events: none;
-      width: 190px; /* Approximate width of logo + text */
-      height: 30px; /* Approximate height */
+      width: 190px;
+      /* Approximate width of logo + text */
+      height: 30px;
+      /* Approximate height */
       left: 0.7rem;
     }
 
@@ -187,8 +200,10 @@ body {
       border-radius: 0.375rem;
       background-color: transparent;
       pointer-events: none;
-      width: 150px; /* Approximate width of date/time */
-      height: 24px; /* Approximate height */
+      width: 150px;
+      /* Approximate width of date/time */
+      height: 24px;
+      /* Approximate height */
       top: 0.8rem;
       right: 0.8rem;
     }
@@ -230,7 +245,7 @@ body {
     width: 600px;
     height: 200px;
     z-index: 0;
-    
+
     /* Hide on mobile */
     @media (max-width: 640px) {
       display: none;
@@ -444,16 +459,26 @@ body {
 
       ul {
         column-count: 2;
-        column-gap: 0.625rem; /* 2.5 * 0.25rem */
+        column-gap: 0.625rem;
+        /* 2.5 * 0.25rem */
       }
+
       @media (min-width: 640px) {
-        .gallery ul { column-count: 3; }
+        .gallery ul {
+          column-count: 3;
+        }
       }
+
       @media (min-width: 768px) {
-        .gallery ul { column-count: 4; }
+        .gallery ul {
+          column-count: 4;
+        }
       }
+
       @media (min-width: 1920px) {
-        .gallery ul { column-count: 6; }
+        .gallery ul {
+          column-count: 6;
+        }
       }
 
       li {
@@ -465,6 +490,7 @@ body {
         -moz-column-break-inside: avoid;
         cursor: pointer;
       }
+
       li img {
         @apply rounded-lg;
         width: 100%;
@@ -596,7 +622,7 @@ body {
 
       .cover {
         @apply w-full flex justify-center mb-6;
-        
+
         img {
           @apply w-110 h-64 max-w-full rounded-2xl shadow-lg object-cover;
         }
@@ -604,13 +630,13 @@ body {
 
       .sliders {
         @apply flex items-center gap-3 w-full overflow-hidden;
-        
+
         input[type="range"] {
           @apply flex-1 min-w-0;
         }
       }
     }
-    }
+  }
 
   #vscode {
     @apply w-6xl h-[700px] absolute top-10 right-20 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
@@ -714,18 +740,18 @@ body {
     transform: none !important;
     border-radius: 0 !important;
     margin: 0 !important;
-    padding-top: 3rem !important; /* Make room for status bar */
-    padding-bottom: 2rem !important; /* Make room for home bar */
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
     display: flex !important;
     flex-direction: column !important;
+    z-index: 9999 !important;
+    pointer-events: auto !important;
   }
 
-  .mobile-view #window-header, 
   .mobile-view .window-drag-handle {
-    display: none !important;
+    cursor: default !important;
   }
 
-  /* Override specific window styles on mobile */
   .mobile-view #safari,
   .mobile-view #terminal,
   .mobile-view #contact,
@@ -738,11 +764,9 @@ body {
   .mobile-view #vscode,
   .mobile-view #ner,
   .mobile-view #game {
-    /* These elements are the .window-root, so they get the fixed full-screen styles. 
-       We just need to clear any background/shadows if needed, but keeping them is fine. */
     border-radius: 0 !important;
   }
-  
+
   .mobile-view #safari .blog {
     padding: 1rem !important;
   }
@@ -760,13 +784,15 @@ body {
   .mobile-view #finder .sidebar,
   .mobile-view #game .sidebar,
   .mobile-view #music .sidebar {
-    display: none !important; /* Hide sidebars on mobile to save space */
+    display: none !important;
   }
 
   .mobile-view .techstack .label {
     margin-left: 1rem !important;
   }
-}@tailwind base;
+}
+
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
