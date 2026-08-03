@@ -25,6 +25,7 @@ import { ContactApp } from "@/components/ios/contact"
 import { FinderApp } from "@/components/ios/finder"
 import { CalculatorApp } from "@/components/ios/calculator"
 import { AppWrapper } from "@/components/ios/hoc/AppWrapper"
+import { StatusBar } from "./status-bar"
 
 const Apps = {
   clock: AppWrapper(Clock, { title: "Clock" }),
@@ -63,6 +64,8 @@ export default function IosLayout() {
 
   const ActiveApp = currentApp ? Apps[currentApp as keyof typeof Apps] : null
 
+  const isDarkStatusBar = currentApp === "camera" || currentApp === "games"
+
   return (
     <div
       className={`
@@ -71,6 +74,13 @@ export default function IosLayout() {
     >
       <SwipeDetector>
         <div className="relative h-full w-full overflow-hidden">
+          {/* Always visible top Status Bar across all apps */}
+          {!isLocked && (
+            <div className="absolute top-0 left-0 right-0 z-[60] pointer-events-none">
+              <StatusBar time={time} dark={isDarkStatusBar} />
+            </div>
+          )}
+
           <AnimatePresence mode="wait">
             {isLocked ? (
               <motion.div
