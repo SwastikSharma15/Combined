@@ -76,15 +76,15 @@ export function AppIcon({ id, name, color, icon, customIcon, size = "normal" }: 
       const dayNumber = date.getDate()
 
       return (
-        <div className="relative w-full h-full flex flex-col items-center shadow-inner rounded-[inherit]">
+        <div className="relative w-full h-full flex flex-col items-center justify-center shadow-inner rounded-[inherit]">
           {/* iOS squircle background imported from user's SVG */}
           <img src="/icons/ios-calendar-app-icon.svg" className="absolute inset-0 z-0 w-full h-full object-cover rounded-[inherit]" alt="" />
           {/* Dynamic text overlay */}
-          <div className="z-10 flex flex-col items-center justify-center w-full h-full pb-[2%] pt-[10%]">
-            <span className={`text-[#FF3B30] font-bold ${size === 'small' ? 'text-[7px]' : 'text-[12px]'}`}>
+          <div className="z-10 flex flex-col items-center justify-center w-full h-full pb-[2%] pt-[8%]">
+            <span className={`text-[#FF3B30] font-extrabold tracking-tight leading-none ${size === 'small' ? 'text-[9.5px]' : 'text-[13.5px]'}`}>
               {dayName}
             </span>
-            <span className={`text-black font-light tracking-tighter ${size === 'small' ? 'text-[18px] mt-[-3px]' : 'text-[36px] mt-[-5px]'}`}>
+            <span className={`text-black font-normal tracking-tighter leading-none ${size === 'small' ? 'text-[23px] mt-[1px]' : 'text-[38px] mt-[2px]'}`}>
               {dayNumber}
             </span>
           </div>
@@ -98,9 +98,9 @@ export function AppIcon({ id, name, color, icon, customIcon, size = "normal" }: 
   }
 
   return (
-    <div className="flex flex-col items-center select-none">
+    <div className={`flex flex-col items-center select-none ${size === "small" ? "w-full h-full" : ""}`}>
       <motion.div
-        className={`app-icon ios26-app-icon ${color}`}
+        className={`app-icon ios26-app-icon ${color} ${size === "small" ? "w-full h-full" : ""}`}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.85 }}
         onClick={() => openApp(id)}
