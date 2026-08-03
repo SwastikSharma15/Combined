@@ -156,7 +156,7 @@ export function AppLibrary({ isVisible, onClose }: AppLibraryProps) {
                   <div className="relative aspect-square bg-black/5 backdrop-blur-xl rounded-2xl p-2 overflow-hidden">
                     <div className="grid grid-cols-2 gap-2 h-full">
                       {category.apps.slice(0, 4).map((app) => (
-                        <div key={app.id} className="relative">
+                        <div key={app.id} className="relative w-full h-full aspect-square">
                           <AppIcon id={app.id} name={app.name} color={app.color} icon={app.icon} size="small" />
                         </div>
                       ))}

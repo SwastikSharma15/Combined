@@ -1,11 +1,11 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { StatusBar } from "@/components/ios/status-bar"
 import { AppIcon } from "@/components/ios/app-icon"
 import { Widget } from "@/components/ios/widget"
 import { AppLibrary } from "@/components/ios/app-library"
-import { motion, AnimatePresence, Reorder } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { useAppState } from "@/lib/app-state"
 
 interface HomeScreenProps {
@@ -15,17 +15,21 @@ interface HomeScreenProps {
 export function HomeScreen({ time }: HomeScreenProps) {
   const [showAppLibrary, setShowAppLibrary] = useState(false)
   const [currentPage, setCurrentPage] = useState(0)
+  const [activeDragId, setActiveDragId] = useState<string | null>(null)
+  const edgeTimerRef = useRef<NodeJS.Timeout | null>(null)
+  const isEdgeSwitchingRef = useRef(false)
+
   const dayOfMonth = time.getDate()
   const { openControlCenter } = useAppState()
 
-  const defaultPage1Apps = [
+  const defaultPage1Apps: { id: string; name: string; color: string; customIcon?: React.ReactNode }[] = [
     { id: "calendar", name: "Calendar", color: "" },
     { id: "photos", name: "Photos", color: "bg-gradient-to-br from-pink-400 via-purple-400 to-blue-400" },
     { id: "camera", name: "Camera", color: "bg-gray-800" },
     { id: "contact", name: "Contact", color: "bg-blue-500" },
     { id: "notes", name: "Notes", color: "bg-yellow-100" },
     { id: "games", name: "Games", color: "bg-purple-500" },
-    { id: "finder", name: "Finder", color: "bg-blue-300", customIcon: <img src="/images/finder.png" className="w-full h-full object-contain p-1" alt="Finder" /> },
+    { id: "messages", name: "Messages", color: "bg-blue-300" },
   ]
 
   const defaultPage2Apps = [
@@ -34,16 +38,26 @@ export function HomeScreen({ time }: HomeScreenProps) {
     { id: "maps", name: "Maps", color: "bg-white" },
   ]
 
+  const dedupe = (list: any[]) => {
+    const seen = new Set()
+    return list.filter((item) => {
+      if (!item || !item.id || seen.has(item.id)) return false
+      seen.add(item.id)
+      return true
+    })
+  }
+
   const [page1Apps, setPage1Apps] = useState(() => {
     if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('ios-page1-apps-v3')
+      const saved = localStorage.getItem('ios-page1-apps-v5')
       if (saved) {
         try {
           const parsed = JSON.parse(saved);
-          return parsed.map((app: any) => {
+          const mapped = parsed.map((app: any) => {
             const defaultApp = defaultPage1Apps.find(a => a.id === app.id);
             return { ...app, customIcon: defaultApp?.customIcon };
           });
+          return dedupe(mapped);
         } catch (e) {
           return defaultPage1Apps;
         }
@@ -54,14 +68,15 @@ export function HomeScreen({ time }: HomeScreenProps) {
 
   const [page2Apps, setPage2Apps] = useState(() => {
     if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('ios-page2-apps-v3')
+      const saved = localStorage.getItem('ios-page2-apps-v5')
       if (saved) {
         try {
           const parsed = JSON.parse(saved);
-          return parsed.map((app: any) => {
+          const mapped = parsed.map((app: any) => {
             const defaultApp = defaultPage2Apps.find(a => a.id === app.id);
             return { ...app, customIcon: defaultApp?.customIcon };
           });
+          return dedupe(mapped);
         } catch (e) {
           return defaultPage2Apps;
         }
@@ -72,15 +87,17 @@ export function HomeScreen({ time }: HomeScreenProps) {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const toSave = page1Apps.map(({ customIcon, ...rest }) => rest);
-      localStorage.setItem('ios-page1-apps-v3', JSON.stringify(toSave))
+      const clean = dedupe(page1Apps);
+      const toSave = clean.map(({ customIcon, ...rest }) => rest);
+      localStorage.setItem('ios-page1-apps-v5', JSON.stringify(toSave))
     }
   }, [page1Apps])
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const toSave = page2Apps.map(({ customIcon, ...rest }) => rest);
-      localStorage.setItem('ios-page2-apps-v3', JSON.stringify(toSave))
+      const clean = dedupe(page2Apps);
+      const toSave = clean.map(({ customIcon, ...rest }) => rest);
+      localStorage.setItem('ios-page2-apps-v5', JSON.stringify(toSave))
     }
   }, [page2Apps])
 
@@ -108,7 +125,100 @@ export function HomeScreen({ time }: HomeScreenProps) {
     })
   }, [])
 
-  const handleDragEnd = (event: any, info: any) => {
+  const clearEdgeTimer = () => {
+    if (edgeTimerRef.current) {
+      clearTimeout(edgeTimerRef.current)
+      edgeTimerRef.current = null
+    }
+  }
+
+  const handleAppDrag = (appId: string, event: any, info: any) => {
+    const pointerX = info.point.x
+    const pointerY = info.point.y
+    const screenWidth = typeof window !== "undefined" ? window.innerWidth : 375
+
+    // --- 1. Edge Screen Switching (Hovering within 22% of screen edge) ---
+    const isRightEdge = pointerX > screenWidth * 0.78
+    const isLeftEdge = pointerX < screenWidth * 0.22
+
+    if (isRightEdge && currentPage === 0 && !isEdgeSwitchingRef.current) {
+      if (!edgeTimerRef.current) {
+        edgeTimerRef.current = setTimeout(() => {
+          isEdgeSwitchingRef.current = true
+          setPage1Apps((prev1) => {
+            const draggedApp = prev1.find((a) => a.id === appId)
+            if (!draggedApp) return prev1
+            const new1 = prev1.filter((a) => a.id !== appId)
+            setPage2Apps((prev2) => dedupe([...prev2.filter((a) => a.id !== appId), draggedApp]))
+            return new1
+          })
+          setCurrentPage(1)
+          setTimeout(() => {
+            isEdgeSwitchingRef.current = false
+          }, 400)
+        }, 300)
+      }
+    } else if (isLeftEdge && currentPage === 1 && !isEdgeSwitchingRef.current) {
+      if (!edgeTimerRef.current) {
+        edgeTimerRef.current = setTimeout(() => {
+          isEdgeSwitchingRef.current = true
+          setPage2Apps((prev2) => {
+            const draggedApp = prev2.find((a) => a.id === appId)
+            if (!draggedApp) return prev2
+            const new2 = prev2.filter((a) => a.id !== appId)
+            setPage1Apps((prev1) => dedupe([...prev1.filter((a) => a.id !== appId), draggedApp]))
+            return new2
+          })
+          setCurrentPage(0)
+          setTimeout(() => {
+            isEdgeSwitchingRef.current = false
+          }, 400)
+        }, 300)
+      }
+    } else {
+      clearEdgeTimer()
+    }
+
+    // --- 2. 2D Fluid Grid Swap within Current Page ---
+    const currentApps = currentPage === 0 ? page1Apps : page2Apps
+    const setApps = currentPage === 0 ? setPage1Apps : setPage2Apps
+
+    for (const item of currentApps) {
+      if (item.id === appId) continue
+      const el = document.getElementById(`app-slot-${item.id}`)
+      if (!el) continue
+
+      const rect = el.getBoundingClientRect()
+      if (
+        pointerX >= rect.left &&
+        pointerX <= rect.right &&
+        pointerY >= rect.top &&
+        pointerY <= rect.bottom
+      ) {
+        setApps((prev) => {
+          const clean = dedupe(prev)
+          const fromIndex = clean.findIndex((a) => a.id === appId)
+          const toIndex = clean.findIndex((a) => a.id === item.id)
+          if (fromIndex < 0 || toIndex < 0 || fromIndex === toIndex) return clean
+
+          const updated = [...clean]
+          const [moved] = updated.splice(fromIndex, 1)
+          updated.splice(toIndex, 0, moved)
+          return updated
+        })
+        break
+      }
+    }
+  }
+
+  const handleAppDragEnd = () => {
+    setActiveDragId(null)
+    clearEdgeTimer()
+  }
+
+  const handlePageDragEnd = (event: any, info: any) => {
+    if (activeDragId) return // Ignore page swipe when dragging an icon
+
     if (info.offset.x < -50 && currentPage < 1) {
       // Swipe left
       setCurrentPage(currentPage + 1)
@@ -156,15 +266,15 @@ export function HomeScreen({ time }: HomeScreenProps) {
         backgroundPosition: "center",
       }}
     >
-      <StatusBar time={time} dark={false} />
+      <div className="h-7" />
 
       {/* Pages Container */}
       <motion.div
         className="flex-1 relative"
-        drag="x"
+        drag={activeDragId ? false : "x"}
         dragConstraints={{ left: 0, right: 0 }}
         dragElastic={0.1}
-        onDragEnd={handleDragEnd}
+        onDragEnd={handlePageDragEnd}
       >
         <AnimatePresence initial={false} mode="popLayout">
           {currentPage === 0 && (
@@ -214,19 +324,27 @@ export function HomeScreen({ time }: HomeScreenProps) {
                 />
               </div>
 
-              {/* First page app icons using Reorder for drag and drop */}
-              <Reorder.Group
-                axis="y"
-                values={page1Apps}
-                onReorder={setPage1Apps}
-                className="grid grid-cols-4 gap-4 mb-6 relative z-10"
-              >
+              {/* First page app icons with 2D fluid grid layout */}
+              <div className="grid grid-cols-4 gap-4 mb-6 relative z-10">
                 {page1Apps.map((app) => (
-                  <Reorder.Item key={app.id} value={app} className="flex justify-center">
+                  <motion.div
+                    key={app.id}
+                    id={`app-slot-${app.id}`}
+                    layout={activeDragId === app.id ? false : "position"}
+                    transition={{ type: "spring", stiffness: 350, damping: 25 }}
+                    drag
+                    dragSnapToOrigin
+                    dragElastic={0.1}
+                    onDragStart={() => setActiveDragId(app.id)}
+                    onDrag={(e, info) => handleAppDrag(app.id, e, info)}
+                    onDragEnd={handleAppDragEnd}
+                    className="flex justify-center touch-none relative"
+                    style={{ zIndex: activeDragId === app.id ? 50 : 1 }}
+                  >
                     <AppIcon id={app.id} name={app.name} color={app.color} />
-                  </Reorder.Item>
+                  </motion.div>
                 ))}
-              </Reorder.Group>
+              </div>
             </motion.div>
           )}
 
@@ -239,19 +357,27 @@ export function HomeScreen({ time }: HomeScreenProps) {
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 20, stiffness: 300 }}
             >
-              {/* Second page app icons using Reorder for drag and drop */}
-              <Reorder.Group
-                axis="y"
-                values={page2Apps}
-                onReorder={setPage2Apps}
-                className="grid grid-cols-4 gap-4 mb-6 relative z-10"
-              >
+              {/* Second page app icons with 2D fluid grid layout */}
+              <div className="grid grid-cols-4 gap-4 mb-6 relative z-10">
                 {page2Apps.map((app) => (
-                  <Reorder.Item key={app.id} value={app} className="flex justify-center">
+                  <motion.div
+                    key={app.id}
+                    id={`app-slot-${app.id}`}
+                    layout={activeDragId === app.id ? false : "position"}
+                    transition={{ type: "spring", stiffness: 350, damping: 25 }}
+                    drag
+                    dragSnapToOrigin
+                    dragElastic={0.1}
+                    onDragStart={() => setActiveDragId(app.id)}
+                    onDrag={(e, info) => handleAppDrag(app.id, e, info)}
+                    onDragEnd={handleAppDragEnd}
+                    className="flex justify-center touch-none relative"
+                    style={{ zIndex: activeDragId === app.id ? 50 : 1 }}
+                  >
                     <AppIcon id={app.id} name={app.name} color={app.color} />
-                  </Reorder.Item>
+                  </motion.div>
                 ))}
-              </Reorder.Group>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -275,7 +401,7 @@ export function HomeScreen({ time }: HomeScreenProps) {
       <div className="ios26-dock mx-4 mb-6 flex justify-between">
         <AppIcon id="phone" name="" color="bg-green-500" />
         <AppIcon id="safari" name="" color="" />
-        <AppIcon id="messages" name="" color="" />
+        <AppIcon id="finder" name="" color="" />
         <AppIcon id="music" name="" color="" />
       </div>
 
