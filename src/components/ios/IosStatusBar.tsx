@@ -23,7 +23,7 @@ const IosStatusBar = () => {
   }, []);
 
   return (
-    <div className="w-full h-12 flex justify-between items-center px-6 text-white z-50 absolute top-0 left-0 pt-2 font-semibold text-sm">
+    <div className="w-full h-12 flex justify-between items-center px-6 text-white z-50 absolute top-0 left-0 pt-2 font-semibold text-sm pointer-events-none">
       <div className="flex-1 flex justify-start">
         <span>{time}</span>
       </div>
