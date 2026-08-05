@@ -36,7 +36,7 @@ export function ControlCenter() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-50 bg-black/20"
+            className="fixed inset-0 z-[9999] bg-black/20"
             onClick={closeControlCenter}
           />
 
@@ -46,7 +46,7 @@ export function ControlCenter() {
             animate={{ y: 0, filter: "blur(0px)" }}
             exit={{ y: "-100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="fixed inset-0 z-50 overflow-auto bg-white/40 backdrop-blur-[40px] border border-white/20"
+            className="fixed inset-0 z-[9999] overflow-auto bg-white/40 backdrop-blur-[40px] border border-white/20"
           >
             <div className="min-h-full w-full p-4 pt-0">
               <StatusBar time={time} dark={false} />
