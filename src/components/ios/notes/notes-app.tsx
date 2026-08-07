@@ -29,7 +29,7 @@ export function NotesApp() {
       id: "all-icloud",
       name: "All iCloud",
       notes: [],
-      icon: "folder",
+      icon: "settings",
     },
     {
       id: "notes",
@@ -45,21 +45,6 @@ export function NotesApp() {
         },
       ],
       icon: "folder",
-    },
-    {
-      id: "family",
-      name: "Family Birthdays & Anniversaries",
-      notes: [
-        {
-          id: "note-2",
-          title: "Mom's Birthday",
-          content: "May 15",
-          tags: ["family"],
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        },
-      ],
-      icon: "settings",
     },
     {
       id: "grocery",
