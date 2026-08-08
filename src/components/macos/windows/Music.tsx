@@ -137,7 +137,7 @@ const Music = () => {
                 value={Math.min(currentTime, duration || 0)}
                 onChange={seekHandler}
                 className='w-full accent-red-500 appearance-auto'
-                style={{ WebkitAppearance: 'auto', appearance: 'auto' }}
+                style={{ appearance: 'auto' }}
                 onMouseDown={(e) => e.stopPropagation()}
                 onMouseDownCapture={(e) => e.stopPropagation()}
                 onPointerDown={(e) => e.stopPropagation()}
@@ -192,7 +192,7 @@ const Music = () => {
               value={volume}
               onChange={changeVolume}
               className='accent-gray-600 w-1/2 mx-auto appearance-auto'
-              style={{ WebkitAppearance: 'auto', appearance: 'auto' }}
+              style={{ appearance: 'auto' }}
               onMouseDown={(e) => e.stopPropagation()}
               onMouseDownCapture={(e) => e.stopPropagation()}
               onPointerDown={(e) => e.stopPropagation()}
