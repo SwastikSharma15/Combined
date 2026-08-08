@@ -103,7 +103,7 @@ const dockApps = [
 ];
 
 const blogPosts = [
-  
+
   {
     id: 2,
     date: "July 5, 2025",
@@ -114,7 +114,7 @@ const blogPosts = [
   {
     id: 1,
     date: "June 10, 2025",
-    title:"Developing Dynamic Web Experiences Using React",
+    title: "Developing Dynamic Web Experiences Using React",
     image: "/images/blog1.png",
     link: "https://swastiksharma15.github.io/Portfolio/blogs.html#post-1",
   },
@@ -138,7 +138,7 @@ const techStack = [
   },
   {
     category: "Backend",
-    items: ["Node.js", "Python","REST APIs"],
+    items: ["Node.js", "Python", "REST APIs"],
   },
   {
     category: "Database",
@@ -146,7 +146,7 @@ const techStack = [
   },
   {
     category: "Dev Tools",
-    items: ["Git", "GitHub","Axios", "Jest", "Figma"],
+    items: ["Git", "GitHub", "Axios", "Jest", "Figma"],
   }
 ];
 
@@ -254,7 +254,7 @@ const gallery = [
     id: 11,
     img: "/images/gal10.jpg",
   },
-  {    
+  {
     id: 12,
     img: "/images/gal11.jpg",
   },
@@ -281,7 +281,7 @@ const gallery = [
 ];
 
 const songs = [
-  
+
   {
     id: 1,
     title: "I Really Want to Stay at Your House",
@@ -407,7 +407,7 @@ const songs = [
     author: "The Peggies",
     src: "/audio/kiminosei_the peggies.mp3",
     cover: "/images/kimi.jpg",
-  },  
+  },
   {
     id: 19,
     title: "RED and BLUE",
@@ -415,7 +415,7 @@ const songs = [
     src: "/audio/kaguya2.mp3",
     cover: "/images/kaguya2.jpg",
   },
-  
+
   {
     id: 20,
     title: "Voices of The Chord (feat. Greta G)",
@@ -459,13 +459,173 @@ const WORK_LOCATION = {
   kind: "folder",
   children: [
 
-    // ▶ Project 1 Cyberpunk
+    // ▶ Project 1 Kurae
     {
       id: 5,
+      name: "Kurae",
+      icon: "/images/folder.webp",
+      kind: "folder",
+      position: "top-10 left-0",
+      windowPosition: "top-[25vh] left-60",
+      children: [
+        {
+          id: 1,
+          name: "Kurae.txt",
+          icon: "/images/txt.png",
+          kind: "file",
+          fileType: "txt",
+          position: "top-50 left-70",
+          description: [
+            "Kurae is an AI-powered visual bookmark manager designed to transform your browser bookmarks into a beautiful visual gallery.",
+            "Instead of plain, text-heavy bookmark lists, it allows users to import saved links from Chrome, Safari, or Edge and organize them visually with AI assistance.",
+            "It features semantic search functionality, allowing users to search and discover saved links by meaning and context rather than exact keyword matches.",
+            "Built with modern web technologies, it offers a responsive, high-performance UI with smooth gallery layouts, dark mode aesthetics, and smart categorization."
+          ],
+        },
+        {
+          id: 2,
+          name: "Kurae.com",
+          icon: "/images/safari.webp",
+          kind: "file",
+          fileType: "url",
+          href: "https://kurae.vercel.app",
+          position: "top-5 left-10",
+        },
+        {
+          id: 4,
+          name: "Kurae.png",
+          icon: "/images/image.png",
+          kind: "file",
+          fileType: "img",
+          position: "top-60 left-20",
+          imageUrl: "/images/kurae.webp",
+        },
+        {
+          id: 5,
+          name: "Kurae.github",
+          icon: "/images/plain.png",
+          kind: "file",
+          fileType: "fig",
+          href: "https://github.com/SwastikSharma15/Kurae",
+          position: "top-15 right-30",
+        },
+      ],
+    },
+
+    // ▶ Project 2 PentaGo Online
+    {
+      id: 6,
+      name: "PentaGo Online",
+      icon: "/images/folder.webp",
+      kind: "folder",
+      position: "top-10 right-5",
+      windowPosition: "top-[10vh] left-40",
+      children: [
+        {
+          id: 1,
+          name: "PentaGo Online.txt",
+          icon: "/images/txt.png",
+          kind: "file",
+          fileType: "txt",
+          position: "top-67 right-85",
+          description: [
+            "PentaGo Online is a real-time multiplayer strategy game I built using React, TypeScript, and Socket.io.",
+            "The game is based on the Pentago board system, where players not only place pieces but also rotate sections of the board, which makes state management and game logic significantly more complex than traditional grid-based games. I implemented complete game logic including turn handling, quadrant rotation, and win detection.",
+            "One of the key challenges was maintaining real-time synchronization between players. I used Socket.io to handle room-based connections and ensure both players see consistent game states without lag or desync issues.",
+            "On the frontend, I focused on smooth UI interactions and animations using Framer Motion, along with efficient state management using Zustand to handle complex game states cleanly.",
+            "This project helped me gain strong experience in real-time systems, state management, and building interactive, performance-focused applications rather than static interfaces."
+          ],
+        },
+        {
+          id: 2,
+          name: "PentaGo Online.com",
+          icon: "/images/safari.webp",
+          kind: "file",
+          fileType: "url",
+          href: "https://pentagoonline.vercel.app",
+          position: "top-25 left-30",
+        },
+        {
+          id: 4,
+          name: "PentaGo Online.png",
+          icon: "/images/image.png",
+          kind: "file",
+          fileType: "img",
+          position: "top-60 right-20",
+          imageUrl: "/images/pentagoonline.png",
+        },
+        {
+          id: 5,
+          name: "PentaGo Online.github",
+          icon: "/images/plain.png",
+          kind: "file",
+          fileType: "fig",
+          href: "https://github.com/SwastikSharma15/PentaGo-Online",
+          position: "top-10 right-20",
+        },
+      ],
+    },
+
+    // ▶ Project 3 Shubh Collections
+    {
+      id: 7,
+      name: "Shubh Collections",
+      icon: "/images/folder.webp",
+      kind: "folder",
+      position: "top-10 left-50",
+      windowPosition: "top-[25vh] left-25",
+      children: [
+        {
+          id: 1,
+          name: "Shubh Collections.txt",
+          icon: "/images/txt.png",
+          kind: "file",
+          fileType: "txt",
+          position: "top-50 left-20",
+          description: [
+            "Shubh Collections is an e-commerce platform offering curated elegance and premium fashion for the modern woman.",
+            "The platform showcases a rich catalog of heritage sarees, contemporary kurtis, and luxury ethnic wear designed for every occasion.",
+            "Built with a focus on refined aesthetics, smooth navigation, and responsive design, it delivers an effortless online shopping experience.",
+            "Features fast performance, intuitive collection browsing, and seamless interaction across all mobile and desktop devices."
+          ],
+        },
+        {
+          id: 2,
+          name: "Shubh Collections.com",
+          icon: "/images/safari.webp",
+          kind: "file",
+          fileType: "url",
+          href: "https://shubhcollections.vercel.app",
+          position: "top-5 left-10",
+        },
+        {
+          id: 4,
+          name: "Shubh Collections.png",
+          icon: "/images/image.png",
+          kind: "file",
+          fileType: "img",
+          position: "top-80 right-20",
+          imageUrl: "/images/ShubhCollections.png",
+        },
+        {
+          id: 5,
+          name: "Shubh Collections.github",
+          icon: "/images/plain.png",
+          kind: "file",
+          fileType: "fig",
+          href: "https://github.com/ShubhCollections/ShubhCollections",
+          position: "top-15 right-30",
+        },
+      ],
+    },
+
+    // ▶ Project 4 Cyberpunk
+    {
+      id: 8,
       name: "Cyberpunk",
       icon: "/images/folder.webp",
       kind: "folder",
-      position: "top-45 right-80 ",
+      position: "top-45 right-80",
       windowPosition: "top-[10vh] left-15", // optional: Finder window position
       children: [
         {
@@ -474,7 +634,7 @@ const WORK_LOCATION = {
           icon: "/images/txt.png",
           kind: "file",
           fileType: "txt",
-          position: "top-5 right-10",
+          position: "top-60 right-70 ",
           description: [
             "A cinematic tribute website inspired by Cyberpunk: Edgerunners, built to capture the neon chaos and raw emotion of Night City.",
             "Instead of a simple fan page, it delivers an immersive experience with animated visuals, dynamic video transitions, and a UI styled straight out of the Cyberpunk universe.",
@@ -484,7 +644,7 @@ const WORK_LOCATION = {
         },
         {
           id: 2,
-          name: "CyberpunkEdgerunners.com",
+          name: "Cyberpunk Edgerunners.com",
           icon: "/images/safari.webp",
           kind: "file",
           fileType: "url",
@@ -507,19 +667,72 @@ const WORK_LOCATION = {
           kind: "file",
           fileType: "fig",
           href: "https://github.com/SwastikSharma15/CyberPunk",
-          position: "top-60 right-70",
+          position: "top-5 right-10",
         },
       ],
     },
 
-    // ▶ Project 2 ShopKar
+    // ▶ Project 5 VS Code Web IDE
     {
-      id: 6,
+      id: 9,
+      name: "VS Code Web IDE",
+      icon: "/images/folder.webp",
+      kind: "folder",
+      position: "top-45 right-30",
+      windowPosition: "top-[40vh] left-40",
+      children: [
+        {
+          id: 1,
+          name: "VS Code.txt",
+          icon: "/images/txt.png",
+          kind: "file",
+          fileType: "txt",
+          position: "top-80 right-95",
+          description: [
+            "VS Code Web IDE is a browser-based recreation of Visual Studio Code, built to simulate the look, feel, and interaction patterns of a real development environment.",
+            "Instead of a static code viewer, it delivers an immersive IDE-like experience with a file explorer, multi-tab editor, terminal panel, and a VS Code–inspired dark theme.",
+            "Think of it as opening VS Code directly in your browser where files, tabs, and panels behave like a real editor, making the interface familiar and intuitive for developers.",
+            "Built with React, Vite, and modern UI patterns, it focuses on performance, responsiveness, and clean state management, while adding a Canvas-based interactive animation layer for an engaging twist."
+          ],
+        },
+        {
+          id: 2,
+          name: "VS Code.com",
+          icon: "/images/safari.webp",
+          kind: "file",
+          fileType: "url",
+          href: "https://vs-code-web-ide.vercel.app/",
+          position: "top-40 left-10",
+        },
+        {
+          id: 4,
+          name: "VS Code.png",
+          icon: "/images/image.png",
+          kind: "file",
+          fileType: "img",
+          position: "top-70 left-85",
+          imageUrl: "/images/vscode.png",
+        },
+        {
+          id: 5,
+          name: "VS Code.github",
+          icon: "/images/plain.png",
+          kind: "file",
+          fileType: "fig",
+          href: "https://github.com/SwastikSharma15/VS-Code-Web-IDE",
+          position: "top-15 right-40",
+        },
+      ],
+    },
+
+    // ▶ Project 6 ShopKar
+    {
+      id: 10,
       name: "ShopKar",
       icon: "/images/folder.webp",
       kind: "folder",
-      position: "top-10 left-0", // icon position inside Finder
-      windowPosition: "top-[25vh] left-30",
+      position: "top-80 left-0", // icon position inside Finder
+      windowPosition: "top-[70vh] left-46",
       children: [
         {
           id: 1,
@@ -527,7 +740,7 @@ const WORK_LOCATION = {
           icon: "/images/txt.png",
           kind: "file",
           fileType: "txt",
-          position: "top-5 left-10",
+          position: "top-52 right-80",
           description: [
             "ShopKar is a fully-featured e-commerce platform built using React.js and Vite, designed to deliver a fast and frictionless shopping experience.",
             "Instead of a basic product listing site, it focuses on smart search, instant filtering, and snappy cart interactions that feel closer to a polished commercial storefront than a student project.",
@@ -542,7 +755,7 @@ const WORK_LOCATION = {
           kind: "file",
           fileType: "url",
           href: "https://shopkar-react.vercel.app/",
-          position: "top-10 right-45",
+          position: "top-5 left-10",
         },
         {
           id: 4,
@@ -550,7 +763,7 @@ const WORK_LOCATION = {
           icon: "/images/image.png",
           kind: "file",
           fileType: "img",
-          position: "top-52 right-80",
+          position: "top-65 right-30",
           imageUrl: "/images/ShopKar.webp",
         },
         {
@@ -560,27 +773,27 @@ const WORK_LOCATION = {
           kind: "file",
           fileType: "fig",
           href: "https://github.com/SwastikSharma15/ShopKar",
-          position: "top-65 right-30",
+          position: "top-10 right-45",
         },
       ],
     },
 
-    // ▶ Project 3 Tidy Tasks
+    // ▶ Project 7 Tidy Tasks
     {
-      id: 7,
+      id: 11,
       name: "Tidy Tasks",
       icon: "/images/folder.webp",
       kind: "folder",
-      position: "top-10 left-50",
+      position: "top-110 right-80",
       windowPosition: "top-[40vh] left-15",
       children: [
         {
           id: 1,
-          name: "TidyTasks.txt",
+          name: "Tidy Tasks.txt",
           icon: "/images/txt.png",
           kind: "file",
           fileType: "txt",
-          position: "top-25 left-30",
+          position: "top-67 right-85",
           description: [
             "TidyTasks is a clean and efficient task manager built with React and Vite, designed to help users stay organized without any unnecessary clutter.",
             "Instead of a basic to-do list, it offers smooth interactions, instant updates, and a polished UI that makes managing tasks feel effortless.",
@@ -590,37 +803,37 @@ const WORK_LOCATION = {
         },
         {
           id: 2,
-          name: "TidyTasks.com",
+          name: "Tidy Tasks.com",
           icon: "/images/safari.webp",
           kind: "file",
           fileType: "url",
           href: "https://tidytasks.vercel.app/",
-          position: "top-10 right-20",
+          position: "top-25 left-30",
         },
         {
           id: 4,
-          name: "TidyTasks.png",
+          name: "Tidy Tasks.png",
           icon: "/images/image.png",
           kind: "file",
           fileType: "img",
-          position: "top-67 right-85",
+          position: "top-60 right-20",
           imageUrl: "/images/tidytask.png",
         },
         {
           id: 5,
-          name: "TidyTasks.github",
+          name: "Tidy Tasks.github",
           icon: "/images/plain.png",
           kind: "file",
           fileType: "fig",
           href: "https://github.com/SwastikSharma15/TidyTasks",
-          position: "top-60 right-20",
+          position: "top-10 right-20",
         },
       ],
     },
 
-    // ▶ Project 4 Movie Plex
+    // ▶ Project 8 Movie Plex
     {
-      id: 8,
+      id: 12,
       name: "Movie Plex",
       icon: "/images/folder.webp",
       kind: "folder",
@@ -633,7 +846,7 @@ const WORK_LOCATION = {
           icon: "/images/txt.png",
           kind: "file",
           fileType: "txt",
-          position: "top-5 right-10",
+          position: "top-60 right-70",
           description: [
             "MoviePlex is a sleek movie discovery app built with React and Vite, designed for browsing films quickly and effortlessly.",
             "Instead of a plain search tool, it offers smooth navigation, real-time search results, and clean movie previews that make exploring titles genuinely fun.",
@@ -643,7 +856,7 @@ const WORK_LOCATION = {
         },
         {
           id: 2,
-          name: "MoviePlex.com",
+          name: "Movie Plex.com",
           icon: "/images/safari.webp",
           kind: "file",
           fileType: "url",
@@ -666,14 +879,14 @@ const WORK_LOCATION = {
           kind: "file",
           fileType: "fig",
           href: "https://github.com/SwastikSharma15/Movie-React-App",
-          position: "top-60 right-70",
+          position: "top-5 right-10",
         },
       ],
     },
 
-    // ▶ Project 5 Mojito Mix
+    // ▶ Project 9 Mojito Mix
     {
-      id: 9,
+      id: 13,
       name: "Mojito Mix",
       icon: "/images/folder.webp",
       kind: "folder",
@@ -686,7 +899,7 @@ const WORK_LOCATION = {
           icon: "/images/txt.png",
           kind: "file",
           fileType: "txt",
-          position: "top-5 left-10",
+          position: "top-50 left-20",
           description: [
             "MojitoMix is a niche beverage-store website focused entirely on handcrafted mojitos, built to showcase flavors in a clean, modern layout.",
             "Instead of a generic product grid, it delivers a refreshing browsing experience with vibrant visuals, smooth transitions, and detailed flavor profiles for every mojito variant.",
@@ -696,12 +909,12 @@ const WORK_LOCATION = {
         },
         {
           id: 2,
-          name: "MojitoMix.com",
+          name: "Mojito Mix.com",
           icon: "/images/safari.webp",
           kind: "file",
           fileType: "url",
           href: "https://mojitomix.vercel.app",
-          position: "top-50 left-20",
+          position: "top-5 left-10",
         },
         {
           id: 4,
@@ -709,7 +922,7 @@ const WORK_LOCATION = {
           icon: "/images/image.png",
           kind: "file",
           fileType: "img",
-          position: "top-15 right-30",
+          position: "top-60 right-20",
           imageUrl: "/images/mojito.webp",
         },
         {
@@ -719,117 +932,12 @@ const WORK_LOCATION = {
           kind: "file",
           fileType: "fig",
           href: "https://github.com/SwastikSharma15/Learning-GSAP",
-          position: "top-60 right-20",
+          position: "top-15 right-30",
         },
       ],
     },
 
-    // ▶ Project 6 VS Code Web IDE
-    {
-      id: 10,
-      name: "VS Code Web IDE",
-      icon: "/images/folder.webp",
-      kind: "folder",
-      position: "top-45 right-30",
-      windowPosition: "top-[40vh] left-40",
-      children: [
-        {
-          id: 1,
-          name: "VS Code.txt",
-          icon: "/images/txt.png",
-          kind: "file",
-          fileType: "txt",
-          position: "top-15 right-40",
-          description: [
-            "VS Code Web IDE is a browser-based recreation of Visual Studio Code, built to simulate the look, feel, and interaction patterns of a real development environment.",
-            "Instead of a static code viewer, it delivers an immersive IDE-like experience with a file explorer, multi-tab editor, terminal panel, and a VS Code–inspired dark theme.",
-            "Think of it as opening VS Code directly in your browser where files, tabs, and panels behave like a real editor, making the interface familiar and intuitive for developers.",
-            "Built with React, Vite, and modern UI patterns, it focuses on performance, responsiveness, and clean state management, while adding a Canvas-based interactive animation layer for an engaging twist."
-          ],
-        },
-        {
-          id: 2,
-          name: "VSCode.com",
-          icon: "/images/safari.webp",
-          kind: "file",
-          fileType: "url",
-          href: "https://vs-code-web-ide.vercel.app/",
-          position: "top-20 left-20",
-        },
-        {
-          id: 4,
-          name: "VS Code.png",
-          icon: "/images/image.png",
-          kind: "file",
-          fileType: "img",
-          position: "top-52 left-80",
-          imageUrl: "/images/vscode.png",
-        },
-        {
-          id: 5,
-          name: "VS Code.github",
-          icon: "/images/plain.png",
-          kind: "file",
-          fileType: "fig",
-          href: "https://github.com/SwastikSharma15/VS-Code-Web-IDE",
-          position: "top-60 right-70",
-        },
-      ],
-    },
 
-    // PentaGo Online
-    {
-      id: 11,
-      name: "PentaGo Online",
-      icon: "/images/folder.webp",
-      kind: "folder",
-      position: "top-10 right-5",
-      windowPosition: "top-[10vh] left-40",
-      children: [
-        {
-          id: 1,
-          name: "PentaGo Online.txt",
-          icon: "/images/txt.png",
-          kind: "file",
-          fileType: "txt",
-          position: "top-25 left-30",
-          description: [
-            "PentaGo Online is a real-time multiplayer strategy game I built using React, TypeScript, and Socket.io.",
-            "The game is based on the Pentago board system, where players not only place pieces but also rotate sections of the board, which makes state management and game logic significantly more complex than traditional grid-based games. I implemented complete game logic including turn handling, quadrant rotation, and win detection.",
-            "One of the key challenges was maintaining real-time synchronization between players. I used Socket.io to handle room-based connections and ensure both players see consistent game states without lag or desync issues.",
-            "On the frontend, I focused on smooth UI interactions and animations using Framer Motion, along with efficient state management using Zustand to handle complex game states cleanly.",
-            "This project helped me gain strong experience in real-time systems, state management, and building interactive, performance-focused applications rather than static interfaces."
-          ],
-        },
-        {
-          id: 2,
-          name: "PentaGoOnline.com",
-          icon: "/images/safari.webp",
-          kind: "file",
-          fileType: "url",
-          href: "https://pentagoonline.vercel.app",
-          position: "top-10 right-20",
-        },
-        {
-          id: 4,
-          name: "PentaGo Online.png",
-          icon: "/images/image.png",
-          kind: "file",
-          fileType: "img",
-          position: "top-67 right-85",
-          imageUrl: "/images/pentagoonline.png",
-        },
-        {
-          id: 5,
-          name: "PentaGo Online.github",
-          icon: "/images/plain.png",
-          kind: "file",
-          fileType: "fig",
-          href: "https://github.com/SwastikSharma15/PentaGo-Online",
-          position: "top-60 right-20",
-        },
-      ],
-    },
   ],
 };
 
