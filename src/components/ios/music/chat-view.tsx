@@ -84,7 +84,7 @@ export function ChatView() {
 
   return (
     <div className="h-full flex flex-col">
-      <div className="px-4 pt-14 pb-4 border-b">
+      <div className="px-4 pt-4 pb-4 border-b">
         <h1 className="text-lg font-semibold">Music Assistant</h1>
       </div>
 
@@ -92,9 +92,8 @@ export function ChatView() {
         {messages.map((message) => (
           <div key={message.id} className={`flex ${message.sender === "you" ? "justify-end" : "justify-start"}`}>
             <div
-              className={`max-w-[75%] rounded-2xl px-4 py-2 ${
-                message.sender === "you" ? "bg-red-500 text-white" : "bg-gray-100"
-              }`}
+              className={`max-w-[75%] rounded-2xl px-4 py-2 ${message.sender === "you" ? "bg-red-500 text-white" : "bg-gray-100"
+                }`}
             >
               {message.sender !== "you" && <div className="text-sm text-gray-500 mb-1">{message.sender}</div>}
               <p className="text-sm">{message.content}</p>

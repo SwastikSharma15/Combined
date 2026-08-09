@@ -39,14 +39,7 @@ export function FullScreenPlayer({ isOpen, onClose }: FullScreenPlayerProps) {
 
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0
 
-  const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    const progressBar = e.currentTarget
-    const clickPosition = e.clientX - progressBar.getBoundingClientRect().left
-    const progressBarWidth = progressBar.clientWidth
-    const percentage = clickPosition / progressBarWidth
 
-    seek(percentage * duration)
-  }
 
   const formatTime = (time: number) => {
     if (isNaN(time)) return "0:00"
@@ -80,10 +73,9 @@ export function FullScreenPlayer({ isOpen, onClose }: FullScreenPlayerProps) {
           </div>
 
           {/* Artwork */}
-          <div className="flex-1 flex items-center justify-center p-8">
+          <div className="flex-1 flex items-center justify-center p-8 mt-4">
             <motion.div
-              className={`w-full max-w-sm aspect-square rounded-3xl overflow-hidden shadow-2xl ${isPlaying ? "" : "scale-90 opacity-90"
-                }`}
+              className="w-full max-w-sm aspect-square rounded-3xl overflow-hidden shadow-2xl"
               transition={{ type: "spring", damping: 20, stiffness: 100 }}
             >
               <img
@@ -114,13 +106,31 @@ export function FullScreenPlayer({ isOpen, onClose }: FullScreenPlayerProps) {
 
             {/* Progress */}
             <div className="mb-8">
-              <div
-                className="h-2 bg-gray-200 rounded-full overflow-hidden cursor-pointer mb-2"
-                onClick={handleProgressClick}
-              >
+              <div className="relative group w-full h-6 flex items-center mb-1">
+                {/* Track background */}
+                <div className="absolute w-full h-1.5 bg-gray-200 rounded-full overflow-hidden transition-all duration-300 group-hover:h-2">
+                  {/* Filled part */}
+                  <div
+                    className="h-full bg-red-500 transition-all duration-75 ease-linear"
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
+                
+                {/* Thumb */}
                 <div
-                  className="h-full bg-red-500 transition-all duration-100"
-                  style={{ width: `${progress}%` }}
+                  className="absolute h-3 w-3 bg-red-500 rounded-full shadow-md scale-0 group-hover:scale-100 transition-transform duration-200 pointer-events-none"
+                  style={{ left: `calc(${progress}% - 6px)` }}
+                />
+
+                {/* Invisible Native Input */}
+                <input
+                  type="range"
+                  min={0}
+                  max={duration || 100}
+                  step={0.1}
+                  value={currentTime}
+                  onChange={(e) => seek(Number(e.target.value))}
+                  className="absolute inset-0 w-full opacity-0 cursor-pointer touch-none"
                 />
               </div>
               <div className="flex justify-between text-xs text-gray-500 font-medium">
