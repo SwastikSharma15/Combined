@@ -65,10 +65,10 @@ export function AppIcon({ id, name, color, icon, customIcon, size = "normal" }: 
       )
     }
 
-    if (id === "contact") return <img src="/images/contact.webp" className="w-full h-full object-cover rounded-[inherit]" alt="Contact" />
-    if (id === "games") return <img src="/images/game.webp" className="w-full h-full object-cover rounded-[inherit]" alt="Games" />
-    if (id === "finder") return <img src="/images/finder.png" className="w-full h-full object-contain p-1 bg-white rounded-[inherit]" alt="Finder" />
-    if (id === "calculator") return <img src="/icons/ios-calculator-app-icon.svg" className="w-full h-full object-cover rounded-[inherit]" alt="Calculator" />
+    if (id === "contact") return <img src="/images/contact.webp" className="w-full h-full object-cover scale-125" alt="Contact" />
+    if (id === "games") return <img src="/images/game.webp" className="w-full h-full object-cover scale-125" alt="Games" />
+    if (id === "finder") return <img src="/images/finder.png" className="w-full h-full object-cover scale-125" alt="Finder" />
+    if (id === "calculator") return <img src="/icons/ios-calculator-app-icon.svg" className="w-full h-full object-cover" alt="Calculator" />
 
     if (id === "calendar") {
       const date = new Date()
@@ -78,7 +78,7 @@ export function AppIcon({ id, name, color, icon, customIcon, size = "normal" }: 
       return (
         <div className="relative w-full h-full flex flex-col items-center justify-center shadow-inner rounded-[inherit]">
           {/* iOS squircle background imported from user's SVG */}
-          <img src="/icons/ios-calendar-app-icon.svg" className="absolute inset-0 z-0 w-full h-full object-cover rounded-[inherit]" alt="" />
+          <img src="/icons/ios-calendar-app-icon.svg" className="absolute inset-0 z-0 w-full h-full object-cover" alt="" />
           {/* Dynamic text overlay */}
           <div className="z-10 flex flex-col items-center justify-center w-full h-full pb-[2%] pt-[8%]">
             <span className={`text-[#FF3B30] font-extrabold tracking-tight leading-none ${size === 'small' ? 'text-[9.5px]' : 'text-[13.5px]'}`}>
@@ -93,14 +93,14 @@ export function AppIcon({ id, name, color, icon, customIcon, size = "normal" }: 
     }
 
     if (customIcon) return customIcon
-    if (icon) return <div className="text-2xl">{icon}</div>
-    return <div className="flex items-center justify-center w-full h-full text-white">{name[0].toUpperCase()}</div>
+    if (icon) return <div className={`w-full h-full flex items-center justify-center text-2xl ${color || "bg-gray-800"}`}>{icon}</div>
+    return <div className={`flex items-center justify-center w-full h-full text-white ${color || "bg-gray-800"}`}>{name[0].toUpperCase()}</div>
   }
 
   return (
     <div className={`flex flex-col items-center select-none ${size === "small" ? "w-full h-full" : ""}`}>
       <motion.div
-        className={`app-icon ios26-app-icon ${color} ${size === "small" ? "w-full h-full" : ""}`}
+        className={`app-icon ios26-app-icon overflow-hidden ${size === "small" ? "w-full h-full" : ""}`}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.85 }}
         onClick={() => openApp(id)}
