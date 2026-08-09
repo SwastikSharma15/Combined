@@ -90,7 +90,7 @@ export function Photos() {
   return (
     <div className="h-full w-full bg-white flex flex-col">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 mt-12">
+      <div className="flex items-center justify-between px-4 py-3 mt-4">
         <h1 className="text-xl font-semibold">
           {isSelecting ? `${selectedPhotos.size} Selected` : formatDate(Date.now())}
         </h1>
