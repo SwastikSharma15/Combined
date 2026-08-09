@@ -24,40 +24,40 @@ const appCategories: AppCategory[] = [
     name: "Productivity",
     apps: [
       { id: "calendar", name: "Calendar", color: "", icon: "calendar" },
-      { id: "notes", name: "Notes", color: "bg-yellow-100", icon: "notes" },
-      { id: "clock", name: "Clock", color: "bg-black", icon: "clock" },
+      { id: "notes", name: "Notes", color: "", icon: "notes" },
+      { id: "clock", name: "Clock", color: "", icon: "clock" },
     ],
   },
   {
     id: "utilities",
     name: "Utilities",
     apps: [
-      { id: "settings", name: "Settings", color: "bg-gray-200", icon: "settings" },
+      { id: "settings", name: "Settings", color: "", icon: "settings" },
       { id: "maps", name: "Maps", color: "", icon: "maps" },
-      { id: "finder", name: "Finder", color: "bg-blue-300", icon: "finder" },
-      { id: "contact", name: "Contact", color: "bg-blue-500", icon: "contact" },
-      { id: "calculator", name: "Calculator", color: "bg-[#ff9f0a]", icon: "calculator" },
+      { id: "finder", name: "Finder", color: "", icon: "finder" },
+      { id: "contact", name: "Contact", color: "", icon: "contact" },
+      { id: "calculator", name: "Calculator", color: "", icon: "calculator" },
     ],
   },
   {
     id: "creativity",
     name: "Creativity & Games",
     apps: [
-      { id: "camera", name: "Camera", color: "bg-gray-800", icon: "camera" },
+      { id: "camera", name: "Camera", color: "", icon: "camera" },
       {
         id: "photos",
         name: "Photos",
-        color: "bg-gradient-to-br from-pink-400 via-purple-400 to-blue-400",
+        color: "",
         icon: "photos",
       },
-      { id: "games", name: "Games", color: "bg-purple-500", icon: "games" },
+      { id: "games", name: "Games", color: "", icon: "games" },
     ],
   },
   {
     id: "connectivity",
     name: "Connectivity & Media",
     apps: [
-      { id: "phone", name: "Phone", color: "bg-green-500", icon: "phone" },
+      { id: "phone", name: "Phone", color: "", icon: "phone" },
       { id: "messages", name: "Messages", color: "", icon: "messages" },
       { id: "safari", name: "Safari", color: "", icon: "safari" },
       { id: "music", name: "Music", color: "", icon: "music" },
@@ -132,7 +132,7 @@ export function AppLibrary({ isVisible, onClose }: AppLibraryProps) {
 
 
           {/* Search Bar */}
-          <div className="px-4 pt-14 pb-4">
+          <div className="px-4 pt-12 pb-4">
             <div className="relative">
               <input
                 type="text"
@@ -146,7 +146,7 @@ export function AppLibrary({ isVisible, onClose }: AppLibraryProps) {
           </div>
 
           {/* App Categories Grid */}
-          <div 
+          <div
             className="px-4 pb-4 overflow-y-auto overflow-x-hidden h-[calc(100%-6rem)]"
             style={{ touchAction: "pan-y" }}
           >
