@@ -27,16 +27,6 @@ export function MusicPlayer() {
 
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0
 
-  const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.stopPropagation()
-    const progressBar = e.currentTarget
-    const clickPosition = e.clientX - progressBar.getBoundingClientRect().left
-    const progressBarWidth = progressBar.clientWidth
-    const percentage = clickPosition / progressBarWidth
-
-    seek(percentage * duration)
-  }
-
   return (
     <>
       <div 
@@ -82,8 +72,29 @@ export function MusicPlayer() {
         </div>
 
         {/* Progress bar */}
-        <div className="mt-2 h-1 bg-gray-200 rounded-full overflow-hidden cursor-pointer" onClick={handleProgressClick}>
-          <div className="h-full bg-red-500 transition-all duration-100" style={{ width: `${progress}%` }} />
+        <div className="mt-2 relative group w-full h-4 flex items-center" onClick={(e) => e.stopPropagation()}>
+          {/* Track background */}
+          <div className="absolute w-full h-1 bg-gray-200 rounded-full overflow-hidden transition-all duration-300 group-hover:h-1.5">
+            {/* Filled part */}
+            <div className="h-full bg-red-500 transition-all duration-75 ease-linear" style={{ width: `${progress}%` }} />
+          </div>
+          
+          {/* Thumb */}
+          <div
+            className="absolute h-2.5 w-2.5 bg-red-500 rounded-full shadow-md scale-0 group-hover:scale-100 transition-transform duration-200 pointer-events-none"
+            style={{ left: `calc(${progress}% - 5px)` }}
+          />
+
+          {/* Invisible Native Input */}
+          <input
+            type="range"
+            min={0}
+            max={duration || 100}
+            step={0.1}
+            value={currentTime}
+            onChange={(e) => seek(Number(e.target.value))}
+            className="absolute inset-0 w-full opacity-0 cursor-pointer touch-none"
+          />
         </div>
       </div>
 
