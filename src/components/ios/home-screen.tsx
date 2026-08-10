@@ -24,18 +24,18 @@ export function HomeScreen({ time }: HomeScreenProps) {
 
   const defaultPage1Apps: { id: string; name: string; color: string; customIcon?: React.ReactNode }[] = [
     { id: "calendar", name: "Calendar", color: "" },
-    { id: "photos", name: "Photos", color: "bg-gradient-to-br from-pink-400 via-purple-400 to-blue-400" },
-    { id: "camera", name: "Camera", color: "bg-gray-800" },
-    { id: "contact", name: "Contact", color: "bg-blue-500" },
-    { id: "notes", name: "Notes", color: "bg-yellow-100" },
-    { id: "games", name: "Games", color: "bg-purple-500" },
-    { id: "messages", name: "Messages", color: "bg-blue-300" },
+    { id: "photos", name: "Photos", color: "" },
+    { id: "camera", name: "Camera", color: "" },
+    { id: "contact", name: "Contact", color: "" },
+    { id: "notes", name: "Notes", color: "" },
+    { id: "games", name: "Games", color: "" },
+    { id: "messages", name: "Messages", color: "" },
   ]
 
   const defaultPage2Apps = [
-    { id: "settings", name: "Settings", color: "bg-gray-200" },
-    { id: "calculator", name: "Calculator", color: "bg-[#ff9f0a]", customIcon: <div className="text-2xl text-white flex items-center justify-center w-full h-full">±</div> },
-    { id: "maps", name: "Maps", color: "bg-white" },
+    { id: "settings", name: "Settings", color: "" },
+    { id: "calculator", name: "Calculator", color: "", customIcon: <div className="text-2xl text-white flex items-center justify-center w-full h-full">±</div> },
+    { id: "maps", name: "Maps", color: "" },
   ]
 
   const dedupe = (list: any[]) => {
@@ -55,7 +55,7 @@ export function HomeScreen({ time }: HomeScreenProps) {
           const parsed = JSON.parse(saved);
           const mapped = parsed.map((app: any) => {
             const defaultApp = defaultPage1Apps.find(a => a.id === app.id);
-            return { ...app, customIcon: defaultApp?.customIcon };
+            return { ...app, color: "", customIcon: defaultApp?.customIcon };
           });
           return dedupe(mapped);
         } catch (e) {
@@ -74,7 +74,7 @@ export function HomeScreen({ time }: HomeScreenProps) {
           const parsed = JSON.parse(saved);
           const mapped = parsed.map((app: any) => {
             const defaultApp = defaultPage2Apps.find(a => a.id === app.id);
-            return { ...app, customIcon: defaultApp?.customIcon };
+            return { ...app, color: "", customIcon: defaultApp?.customIcon };
           });
           return dedupe(mapped);
         } catch (e) {
