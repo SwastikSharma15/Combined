@@ -41,7 +41,7 @@ export function NoteEditor({ note, onSave, onBack, onDelete }: NoteEditorProps) 
   return (
     <div className="h-full w-full bg-white flex flex-col">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 pt-14 pb-2 border-b">
+      <div className="flex items-center justify-between px-4 pt-4 pb-2 border-b">
         <button onClick={onBack}>
           <ArrowLeft className="h-5 w-5 text-[#FF9500]" />
         </button>

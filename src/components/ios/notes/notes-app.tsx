@@ -208,7 +208,7 @@ export function NotesApp() {
   return (
     <div className="h-full w-full bg-[#F2F2F7] flex flex-col">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 pt-14 pb-2">
+      <div className="flex items-center justify-between px-4 pt-4 pb-2">
         <h1 className="text-3xl font-bold">Folders</h1>
         <button className="text-[#FF9500] font-medium" onClick={() => setIsEditing(!isEditing)}>
           {isEditing ? "Done" : "Edit"}

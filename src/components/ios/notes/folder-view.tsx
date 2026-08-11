@@ -25,7 +25,7 @@ export function FolderView({ folder, onBack, onNoteClick, onCreateNote, onDelete
   return (
     <div className="h-full w-full bg-[#F2F2F7] flex flex-col">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 pt-14 pb-2">
+      <div className="flex items-center justify-between px-4 pt-4 pb-2">
         <div className="flex items-center gap-2">
           <button onClick={onBack}>
             <ArrowLeft className="h-5 w-5 text-[#FF9500]" />

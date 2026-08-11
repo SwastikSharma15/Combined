@@ -5,7 +5,7 @@ import { Radio, Play } from "lucide-react"
 export function RadioView() {
   return (
     <div className="h-full overflow-auto">
-      <div className="px-4 pt-14 pb-4">
+      <div className="px-4 pt-4 pb-4">
         <h1 className="text-2xl font-bold">Radio</h1>
       </div>
 

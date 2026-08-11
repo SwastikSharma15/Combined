@@ -40,7 +40,7 @@ export function SearchView() {
 
   return (
     <div className="h-full overflow-auto pb-24">
-      <div className="px-4 pt-14 pb-4">
+      <div className="px-4 pt-4 pb-4">
         <div className="relative">
           <input
             type="text"
