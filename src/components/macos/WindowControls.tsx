@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { ChevronLeft } from 'lucide-react'
 
 const WindowControls = ({ target }: { target: string }) => {
-  const { closeWindow, toggleMaximizeWindow } = useWindowStore() as any;
+  const { closeWindow, startClose, toggleMaximizeWindow } = useWindowStore() as any;
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -16,7 +16,13 @@ const WindowControls = ({ target }: { target: string }) => {
   const handleBack = (e: React.SyntheticEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    // Mobile uses instant close (no genie animation)
     closeWindow(target);
+  };
+
+  const handleClose = () => {
+    // Desktop uses animated genie close
+    startClose(target);
   };
 
   if (isMobile) {
@@ -36,8 +42,8 @@ const WindowControls = ({ target }: { target: string }) => {
 
   return (
     <div id='window-controls'>
-      <div className='close' onClick={() => closeWindow(target)} />
-      <div className='minimize' onClick={() => closeWindow(target)} />
+      <div className='close' onClick={handleClose} />
+      <div className='minimize' onClick={handleClose} />
       <div className='maximize' onClick={() => toggleMaximizeWindow(target)} />
     </div>
   )

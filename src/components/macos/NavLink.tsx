@@ -5,7 +5,7 @@ const isMobile = typeof window !== 'undefined' && window.innerWidth <= 640;
 
 interface NavLinkProps {
   name: string;
-  onClick: () => void;
+  onClick: (e: React.MouseEvent) => void;
   [key: string]: any;
 }
 
