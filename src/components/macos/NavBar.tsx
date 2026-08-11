@@ -101,20 +101,30 @@ const NavBar = React.memo(() => {
     });
   }, []);
   
-  const handleNavLinkClick = useCallback((type) => {
+  const handleNavLinkClick = useCallback((type, event: React.MouseEvent) => {
     if (!type) return;
+
+    // Capture click origin for genie animation
+    const el = event.currentTarget as HTMLElement;
+    const rect = el.getBoundingClientRect();
+    const originRect = { x: rect.x, y: rect.y, width: rect.width, height: rect.height };
 
     if (type === 'finder') {
       setActiveLocation(locations.work);
     }
 
-    openWindow(type);
+    openWindow(type, null, originRect);
   }, [openWindow, setActiveLocation]);
 
-  const handleIconClick = useCallback(({ type, action }) => {
+  const handleIconClick = useCallback(({ type, action }, event: React.MouseEvent) => {
     if (!type) return;
+
+    // Capture click origin for genie animation
+    const el = event.currentTarget as HTMLElement;
+    const rect = el.getBoundingClientRect();
+    const originRect = { x: rect.x, y: rect.y, width: rect.width, height: rect.height };
     
-    openWindow(type);
+    openWindow(type, null, originRect);
     
     if (action === 'about') {
       setActiveLocation(locations.about);
@@ -145,14 +155,14 @@ const NavBar = React.memo(() => {
 
         <ul>
           {navLinks.map((link) => (
-            <NavLink key={link.id} {...link} onClick={() => handleNavLinkClick(link.type)} />
+            <NavLink key={link.id} {...link} onClick={(e) => handleNavLinkClick(link.type, e)} />
           ))}
         </ul>
       </div>
       <div>
         <ul>
           {navIcons.map(({ id, img, type, action }) => (
-            <li key={id} onClick={() => handleIconClick({ type, action })}>
+            <li key={id} onClick={(e) => handleIconClick({ type, action }, e)}>
               <img
                 src={img}
                 className={`icon-hover ${type ? 'cursor-pointer' : ''}`}
