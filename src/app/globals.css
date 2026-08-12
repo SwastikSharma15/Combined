@@ -308,7 +308,7 @@ body {
   }
 
   #safari {
-    @apply w-4xl absolute top-20 left-2/12 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+    @apply w-4xl absolute top-20 left-2/12 bg-white rounded-xl overflow-hidden;
 
     .search {
       @apply flex items-center gap-3 w-2/3 bg-white border border-gray-300 rounded-lg px-3 py-2;
@@ -352,7 +352,7 @@ body {
   }
 
   #terminal {
-    @apply w-xl absolute top-32 left-1/12 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+    @apply w-xl absolute top-32 left-1/12 bg-white rounded-xl overflow-hidden;
 
     h2 {
       @apply font-bold text-sm text-center w-full;
@@ -398,7 +398,7 @@ body {
   }
 
   #contact {
-    @apply max-w-2xl absolute top-60 left-5/12 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+    @apply max-w-2xl absolute top-60 left-5/12 bg-white rounded-xl overflow-hidden;
 
     h2 {
       @apply font-bold text-sm text-center w-full;
@@ -426,7 +426,7 @@ body {
   }
 
   #photos {
-    @apply max-w-3xl h-[600px] absolute top-25 left-1/2 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+    @apply max-w-3xl h-[600px] absolute top-25 left-1/2 bg-white rounded-xl overflow-hidden;
 
     .sidebar {
       @apply w-3/12 flex-none bg-gray-50 border-r border-gray-200 flex flex-col p-5;
@@ -501,7 +501,7 @@ body {
 
   #resume {
     /* Give the window a fixed height in non-maximized state so inner content can scroll */
-    @apply w-[650px] h-[600px] absolute top-16 left-6/12 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+    @apply w-[650px] h-[600px] absolute top-16 left-6/12 bg-white rounded-xl overflow-hidden;
 
     #window-header {
       h2 {
@@ -511,7 +511,7 @@ body {
   }
 
   #finder {
-    @apply absolute w-3xl left-40 top-20 shadow-2xl drop-shadow-2xl overflow-hidden rounded-xl;
+    @apply absolute w-3xl left-40 top-20 overflow-hidden rounded-xl;
 
     .sidebar {
       @apply w-48 bg-gray-50 border-r border-gray-200 flex flex-col p-5 space-y-3;
@@ -555,7 +555,7 @@ body {
   }
 
   #txtfile {
-    @apply w-md h-[550px] absolute top-36 right-32 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+    @apply w-md h-[550px] absolute top-36 right-32 bg-white rounded-xl overflow-hidden;
 
     h2 {
       @apply font-bold text-sm text-center w-full;
@@ -563,7 +563,7 @@ body {
   }
 
   #imgfile {
-    @apply w-xl absolute top-40 left-2/12 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+    @apply w-xl absolute top-40 left-2/12 bg-white rounded-xl overflow-hidden;
 
     #window-header {
       p {
@@ -599,7 +599,7 @@ body {
   }
 
   #music {
-    @apply w-full max-w-[860px] h-[630px] absolute top-5 left-5/12 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+    @apply w-full max-w-[860px] h-[630px] absolute top-5 left-5/12 bg-white rounded-xl overflow-hidden;
 
     .sidebar {
       @apply w-4/12 flex-none bg-gray-50 border-r border-gray-200 flex flex-col p-5;
@@ -639,7 +639,7 @@ body {
   }
 
   #vscode {
-    @apply w-6xl h-[700px] absolute top-10 right-20 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+    @apply w-6xl h-[700px] absolute top-10 right-20 bg-white rounded-xl overflow-hidden;
 
     #window-header {
       @apply flex items-center justify-between bg-gray-50 border-b border-gray-200 select-none text-sm text-gray-400;
@@ -655,7 +655,7 @@ body {
   }
 
   #ner {
-    @apply w-5xl h-[600px] absolute top-20 left-20 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+    @apply w-5xl h-[600px] absolute top-20 left-20 bg-white rounded-xl overflow-hidden;
 
     #window-header {
       @apply flex items-center justify-between bg-gray-50 border-b border-gray-200 select-none text-sm text-gray-400;
@@ -671,7 +671,7 @@ body {
   }
 
   #game {
-    @apply w-[1150px] h-[650px] absolute top-10 left-50 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden flex flex-col;
+    @apply w-[1150px] h-[650px] absolute top-10 left-50 bg-white rounded-xl overflow-hidden flex flex-col;
 
     #window-header {
       @apply flex items-center justify-between bg-gray-50 border-b border-gray-200 select-none text-sm text-gray-400;
