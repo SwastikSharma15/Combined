@@ -42,11 +42,11 @@ export function ControlCenter() {
 
           {/* Control Center Panel */}
           <motion.div
-            initial={{ y: "-100%", filter: "blur(0px)" }}
-            animate={{ y: 0, filter: "blur(0px)" }}
-            exit={{ y: "-100%" }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="fixed inset-0 z-[9999] overflow-auto bg-white/40 backdrop-blur-[40px] border border-white/20"
+            initial={{ opacity: 0, scale: 0.9, x: "15%", y: "-15%", borderRadius: "60px" }}
+            animate={{ opacity: 1, scale: 1, x: 0, y: 0, borderRadius: "0px" }}
+            exit={{ opacity: 0, scale: 0.9, x: "15%", y: "-15%", borderRadius: "60px" }}
+            transition={{ type: "spring", damping: 28, stiffness: 350, mass: 0.8 }}
+            className="fixed inset-0 z-[9999] overflow-auto bg-white/40 backdrop-blur-[40px] border border-white/20 transform-gpu"
           >
             <div className="min-h-full w-full p-4 pt-0">
               <StatusBar time={time} dark={false} />
