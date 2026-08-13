@@ -10,7 +10,7 @@ const Dock = React.memo(() => {
 
   // Optimized selectors - only subscribe to what we need
   const openWindow = useWindowStore(state => state.openWindow);
-  const closeWindow = useWindowStore(state => state.closeWindow);
+  const startClose = useWindowStore(state => state.startClose);
   const windows = useWindowStore(state => state.windows);
   const setActiveLocation = useLocationStore(state => state.setActiveLocation);
 
@@ -67,20 +67,25 @@ const Dock = React.memo(() => {
     });
   }, []);
 
-  const toggleApp = useCallback((app) => {
+  const toggleApp = useCallback((app, event: React.MouseEvent) => {
     if (!app.canOpen) return;
+
+    // Capture the dock icon's bounding rect for genie animation
+    const iconEl = (event.currentTarget as HTMLElement);
+    const rect = iconEl.getBoundingClientRect();
+    const originRect = { x: rect.x, y: rect.y, width: rect.width, height: rect.height };
 
     // Special case: Trash icon should open Finder focused on Trash
     if (app.action === 'trash') {
       // Ensure Finder window opens and switch Finder to Trash location
-      openWindow('finder');
+      openWindow('finder', null, originRect);
       setActiveLocation(locations.trash);
       return;
     }
 
     // Special case: Finder icon should open Finder focused on Work
     if (app.id === 'finder') {
-      openWindow('finder');
+      openWindow('finder', null, originRect);
       setActiveLocation(locations.work);
       return;
     }
@@ -93,11 +98,11 @@ const Dock = React.memo(() => {
     }
 
     if (win.isOpen) {
-      closeWindow(app.id);
+      startClose(app.id);
     } else {
-      openWindow(app.id);
+      openWindow(app.id, null, originRect);
     }
-  }, [openWindow, closeWindow, windows, setActiveLocation]);
+  }, [openWindow, startClose, windows, setActiveLocation]);
 
   return (
     <section id='dock'>
@@ -108,11 +113,12 @@ const Dock = React.memo(() => {
               type='button' 
               className='dock-icon'
               aria-label={name}
+              data-app-id={id}
               data-tooltip-id= "dock-tooltip"
               data-tooltip-content = {name}
               data-tooltip-delay-show = {150}
               disabled= {!canOpen}
-              onClick={() => toggleApp({id, canOpen, action})}
+              onClick={(e) => toggleApp({id, canOpen, action}, e)}
             >
               <img 
                 src={`/images/${icon}`}
