@@ -1113,19 +1113,21 @@ export const locations = {
 
 const INITIAL_Z_INDEX = 1000;
 
+const DEFAULT_WINDOW = { isOpen: false, isClosing: false, isMinimized: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null, originRect: null };
+
 const WINDOW_CONFIG = {
-  finder: { isOpen: false, isMinimized: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null },
-  contact: { isOpen: false, isMinimized: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null },
-  resume: { isOpen: false, isMinimized: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null },
-  safari: { isOpen: false, isMinimized: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null },
-  photos: { isOpen: false, isMinimized: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null },
-  terminal: { isOpen: false, isMinimized: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null },
-  vscode: { isOpen: false, isMinimized: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null },
-  txtfile: { isOpen: false, isMinimized: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null },
-  imgfile: { isOpen: false, isMinimized: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null },
-  music: { isOpen: false, isMinimized: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null },
-  game: { isOpen: false, isMinimized: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null },
-  trash: { isOpen: false, isMinimized: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null },
+  finder: { ...DEFAULT_WINDOW },
+  contact: { ...DEFAULT_WINDOW },
+  resume: { ...DEFAULT_WINDOW },
+  safari: { ...DEFAULT_WINDOW },
+  photos: { ...DEFAULT_WINDOW },
+  terminal: { ...DEFAULT_WINDOW },
+  vscode: { ...DEFAULT_WINDOW },
+  txtfile: { ...DEFAULT_WINDOW },
+  imgfile: { ...DEFAULT_WINDOW },
+  music: { ...DEFAULT_WINDOW },
+  game: { ...DEFAULT_WINDOW },
+  trash: { ...DEFAULT_WINDOW },
 };
 
 export { INITIAL_Z_INDEX, WINDOW_CONFIG };
