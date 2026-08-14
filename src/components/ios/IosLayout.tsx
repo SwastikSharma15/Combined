@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import { LockScreen } from "@/components/ios/lock-screen"
 import { HomeScreen } from "@/components/ios/home-screen"
@@ -33,7 +33,7 @@ const Apps = {
   weather: AppWrapper(Weather, { title: "Weather" }),
   calendar: AppWrapper(Calendar, { title: "Calendar" }),
   camera: AppWrapper(Camera, { hideHeader: true }),
-  photos: AppWrapper(Photos, { title: "Photos" }),
+  photos: AppWrapper(Photos, { hideHeader: true }),
   notes: AppWrapper(NotesApp, { title: "Notes" }),
   messages: AppWrapper(MessagesApp, { title: "Messages" }),
   safari: AppWrapper(SafariApp, { title: "Safari" }),
@@ -47,9 +47,17 @@ const Apps = {
 }
 
 export default function IosLayout() {
-  const { currentApp, isLocked } = useAppState()
+  const { currentApp, isLocked, appOriginRect } = useAppState()
   const [time, setTime] = useState(new Date())
   const [mounted, setMounted] = useState(false)
+
+  // Track which app is actually rendered (stays during close animation)
+  const [renderedApp, setRenderedApp] = useState<string | null>(null)
+  const [animState, setAnimState] = useState<"idle" | "opening" | "open" | "closing">("idle")
+  const appContainerRef = useRef<HTMLDivElement>(null)
+  const layoutRef = useRef<HTMLDivElement>(null)
+  const lastOriginRef = useRef<DOMRect | null>(null)
+  const prevAppRef = useRef<string | null>(null)
 
   useEffect(() => {
     setMounted(true)
@@ -60,9 +68,109 @@ export default function IosLayout() {
     return () => clearInterval(timer)
   }, [])
 
+  // Calculate the transform to position the full-screen app at the icon's location
+  const getOriginTransform = useCallback((originRect: DOMRect | null) => {
+    if (!originRect || !layoutRef.current) {
+      // Fallback: scale from center of screen
+      return {
+        transform: "translate3d(50%, 50%, 0) scale(0.01)",
+        hasFallback: true,
+      }
+    }
+
+    const layoutRect = layoutRef.current.getBoundingClientRect()
+    const translateX = originRect.left - layoutRect.left
+    const translateY = originRect.top - layoutRect.top
+    const scaleX = originRect.width / layoutRect.width
+    const scaleY = originRect.height / layoutRect.height
+
+    return {
+      transform: `translate3d(${translateX}px, ${translateY}px, 0) scale(${scaleX}, ${scaleY})`,
+      hasFallback: false,
+    }
+  }, [])
+
+  // Detect app open
+  useEffect(() => {
+    if (currentApp && currentApp !== prevAppRef.current) {
+      // New app being opened
+      lastOriginRef.current = appOriginRect
+      setRenderedApp(currentApp)
+      setAnimState("opening")
+    } else if (!currentApp && prevAppRef.current) {
+      // App being closed
+      setAnimState("closing")
+    }
+    prevAppRef.current = currentApp
+  }, [currentApp, appOriginRect])
+
+  // Opening animation
+  useEffect(() => {
+    if (animState !== "opening" || !appContainerRef.current || !renderedApp) return
+
+    const container = appContainerRef.current
+    const { transform: originTransform, hasFallback } = getOriginTransform(lastOriginRef.current)
+
+    // Set initial position (at icon) with no transition
+    container.style.transition = "none"
+    container.style.transform = originTransform
+    container.style.borderRadius = hasFallback ? "0px" : "14px"
+    container.style.opacity = "1"
+    container.style.visibility = "visible"
+
+    // Force reflow so the initial transform is applied
+    void container.offsetWidth
+
+    // Animate to full-screen
+    container.style.transition = "transform 0.4s cubic-bezier(0.32, 0.72, 0, 1), border-radius 0.4s cubic-bezier(0.32, 0.72, 0, 1)"
+    container.style.transform = "translate3d(0, 0, 0) scale(1)"
+    container.style.borderRadius = "0px"
+
+    const onEnd = (e: TransitionEvent) => {
+      if (e.target === container && e.propertyName === "transform") {
+        setAnimState("open")
+        container.removeEventListener("transitionend", onEnd)
+      }
+    }
+    container.addEventListener("transitionend", onEnd)
+
+    return () => container.removeEventListener("transitionend", onEnd)
+  }, [animState, renderedApp, getOriginTransform])
+
+  // Closing animation
+  useEffect(() => {
+    if (animState !== "closing" || !appContainerRef.current) return
+
+    const container = appContainerRef.current
+    const { transform: originTransform, hasFallback } = getOriginTransform(lastOriginRef.current)
+
+    container.style.transition = "transform 0.35s cubic-bezier(0.32, 0.72, 0, 1), border-radius 0.35s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.2s ease 0.15s"
+    container.style.transform = originTransform
+    container.style.borderRadius = hasFallback ? "0px" : "14px"
+    container.style.opacity = "0"
+
+    const onEnd = (e: TransitionEvent) => {
+      if (e.target === container && e.propertyName === "transform") {
+        setAnimState("idle")
+        setRenderedApp(null)
+        lastOriginRef.current = null
+        // Reset styles
+        container.style.transition = "none"
+        container.style.transform = ""
+        container.style.borderRadius = ""
+        container.style.opacity = "0"
+        container.style.visibility = "hidden"
+        container.removeEventListener("transitionend", onEnd)
+      }
+    }
+    container.addEventListener("transitionend", onEnd)
+
+    return () => container.removeEventListener("transitionend", onEnd)
+  }, [animState, getOriginTransform])
+
   if (!mounted) return null
 
-  const ActiveApp = currentApp ? Apps[currentApp as keyof typeof Apps] : null
+  const ActiveApp = renderedApp ? Apps[renderedApp as keyof typeof Apps] : null
 
   const isDarkStatusBar = currentApp === "camera" || currentApp === "games"
 
@@ -73,7 +181,7 @@ export default function IosLayout() {
     `}
     >
       <SwipeDetector>
-        <div className="relative h-full w-full overflow-hidden">
+        <div ref={layoutRef} className="relative h-full w-full overflow-hidden">
           {/* Always visible top Status Bar across all apps */}
           {!isLocked && (
             <div className="absolute top-0 left-0 right-0 z-[60] pointer-events-none">
@@ -81,6 +189,7 @@ export default function IosLayout() {
             </div>
           )}
 
+          {/* Home Screen / Lock Screen */}
           <AnimatePresence mode="wait">
             {isLocked ? (
               <motion.div
@@ -92,17 +201,6 @@ export default function IosLayout() {
                 className="absolute inset-0"
               >
                 <LockScreen time={time} />
-              </motion.div>
-            ) : ActiveApp ? (
-              <motion.div
-                key={`app-${currentApp}`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.2 }}
-                className="absolute inset-0 pointer-events-auto z-10"
-              >
-                <ActiveApp />
               </motion.div>
             ) : (
               <motion.div
@@ -117,6 +215,21 @@ export default function IosLayout() {
               </motion.div>
             )}
           </AnimatePresence>
+
+          {/* App Container - position-aware animation layer */}
+          <div
+            ref={appContainerRef}
+            className="absolute inset-0 pointer-events-auto z-10"
+            style={{
+              transformOrigin: "top left",
+              willChange: "transform",
+              visibility: "hidden",
+              opacity: 0,
+              overflow: "hidden",
+            }}
+          >
+            {ActiveApp && <ActiveApp />}
+          </div>
 
           {/* Control Center */}
           <ControlCenter />
