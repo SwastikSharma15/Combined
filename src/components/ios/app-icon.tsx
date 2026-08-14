@@ -103,7 +103,10 @@ export function AppIcon({ id, name, color, icon, customIcon, size = "normal" }: 
         className={`app-icon ios26-app-icon overflow-hidden ${size === "small" ? "w-full h-full" : ""}`}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.85 }}
-        onClick={() => openApp(id)}
+        onClick={(e) => {
+          const rect = e.currentTarget.getBoundingClientRect()
+          openApp(id, rect)
+        }}
         onTouchStart={(e) => e.stopPropagation()}
         style={{
           width: size === "small" ? "100%" : "60px",
