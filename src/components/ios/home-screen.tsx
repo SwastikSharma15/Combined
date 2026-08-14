@@ -20,7 +20,20 @@ export function HomeScreen({ time }: HomeScreenProps) {
   const isEdgeSwitchingRef = useRef(false)
 
   const dayOfMonth = time.getDate()
-  const { openControlCenter } = useAppState()
+  const { openControlCenter, openApp, wallpaper } = useAppState()
+
+  // Dynamic calendar data
+  const dayName = time.toLocaleDateString("en-US", { weekday: "long" }).toUpperCase()
+  const shortDayName = time.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase()
+  const monthName = time.toLocaleDateString("en-US", { month: "long" })
+
+  // Meaningful upcoming events for a developer portfolio
+  const upcomingEvents = [
+    { title: "Team Standup", time: "9:30 AM", color: "text-orange-500", dot: "bg-orange-500" },
+    { title: "Code Interview Prep", time: "2:00 PM", color: "text-blue-500", dot: "bg-blue-500" }
+  ]
+  // Pick event based on current hour so it rotates
+  const currentEvent = upcomingEvents[time.getHours() % upcomingEvents.length]
 
   const defaultPage1Apps: { id: string; name: string; color: string; customIcon?: React.ReactNode }[] = [
     { id: "calendar", name: "Calendar", color: "" },
@@ -261,7 +274,7 @@ export function HomeScreen({ time }: HomeScreenProps) {
     <div
       className="h-full w-full flex flex-col relative select-none overflow-hidden"
       style={{
-        backgroundImage: `url(/wallpaper.jpg)`,
+        backgroundImage: `url(${wallpaper})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
@@ -291,33 +304,43 @@ export function HomeScreen({ time }: HomeScreenProps) {
                 <Widget
                   className="ios26-mesh-gradient-1 text-black"
                   title="Weather"
+                  onClick={(e) => {
+                    const rect = e.currentTarget.getBoundingClientRect()
+                    openApp("weather", rect)
+                  }}
                   content={
-                    <div className="text-black">
-                      <div className="text-sm">Himachal Pradesh</div>
-                      <div className="text-5xl font-light">56°</div>
-                      <div className="flex items-center gap-1 mt-1">
-                        <span className="text-yellow-500 text-lg">☀️</span>
-                        <span>Sunny</span>
+                    <div className="text-black h-full flex flex-col justify-between font-sans tracking-tight">
+                      <div className="text-[13px] font-medium text-gray-800">Himachal Pradesh</div>
+                      <div className="text-5xl font-light my-0.5">31°</div>
+                      <div>
+                        <div className="flex items-center gap-1 text-[12px] font-medium text-gray-800">
+                          <span className="text-yellow-500 text-sm">☀️</span>
+                          <span>Sunny</span>
+                        </div>
+                        <div className="text-[11px] text-gray-600 mt-0.5 font-medium">H:77° L:55°</div>
                       </div>
-                      <div className="text-xs mt-1">H:77° L:55°</div>
                     </div>
                   }
                 />
                 <Widget
                   className="ios26-mesh-gradient-2 text-black"
                   title="Calendar"
+                  onClick={(e) => {
+                    const rect = e.currentTarget.getBoundingClientRect()
+                    openApp("calendar", rect)
+                  }}
                   content={
-                    <div className="text-black">
-                      <div className="text-xs text-red-500 font-bold">MONDAY</div>
-                      <div className="text-5xl font-light">{dayOfMonth}</div>
-                      <div className="flex items-center gap-1 mt-1 text-xs">
-                        <span className="text-gray-600">🔒</span>
-                        <span>2 birthdays</span>
-                      </div>
-                      <div className="text-xs mt-1 text-red-500 font-medium">
-                        Portfolio work s...
-                        <br />
-                        10 - 10:30AM
+                    <div className="text-black h-full flex flex-col justify-between font-sans tracking-tight">
+                      <div className="text-[13px] text-red-500 font-bold uppercase">{shortDayName}</div>
+                      <div className="text-5xl font-light my-0.5">{dayOfMonth}</div>
+                      <div>
+                        <div className="flex items-center gap-1.5">
+                          <div className={`w-1.5 h-1.5 rounded-full ${currentEvent.dot} flex-shrink-0`} />
+                          <span className={`text-[12px] font-semibold ${currentEvent.color} truncate`}>
+                            {currentEvent.title}
+                          </span>
+                        </div>
+                        <div className="text-[11px] text-gray-600 ml-3 mt-0.5 font-medium">{currentEvent.time}</div>
                       </div>
                     </div>
                   }
