@@ -10,40 +10,57 @@ interface MessagesState {
   setActiveConversation: (id: string | null) => void
   markAsRead: (conversationId: string) => void
   addReaction: (conversationId: string, messageId: string, reaction: string) => void
+  deleteConversation: (conversationId: string) => void
+  deleteMultipleConversations: (ids: string[]) => void
+  createConversation: (name: string, initialMessage: string) => void
 }
 
-// Initial conversation with Guillermo
-const guillermoConversation: Conversation = {
-  id: "guillermo",
-  contact: {
-    id: "guillermo",
-    name: "Guillermo Rauch",
-    avatar: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-2ZG4j9TPtBOJ8H70dv7KGCcBrQsIoj.png",
-    isOnline: true,
+const initialConversations: Conversation[] = [
+  {
+    id: "troll-sticker-chat",
+    contact: {
+      id: "troll-master",
+      name: "Sticker Wars 🤡",
+      avatar: "/images/trash-1.png",
+      isOnline: true,
+    },
+    messages: [
+      {
+        id: "t1",
+        content: "📷 Shared a sticker: /images/trash-1.png",
+        sender: "assistant",
+        timestamp: Date.now() - 1000 * 60 * 20,
+        status: "read",
+      },
+      {
+        id: "t2",
+        content: "📷 Shared a sticker: /images/trash-2.jpg",
+        sender: "user",
+        timestamp: Date.now() - 1000 * 60 * 15,
+        status: "read",
+      },
+      {
+        id: "t3",
+        content: "📷 Shared a sticker: /images/trash-4.jpg",
+        sender: "assistant",
+        timestamp: Date.now() - 1000 * 60 * 10,
+        status: "read",
+      },
+      {
+        id: "t4",
+        content: "📷 Shared a sticker: /images/trash-3.jpg",
+        sender: "user",
+        timestamp: Date.now() - 1000 * 60 * 5,
+        status: "delivered",
+      },
+    ],
+    lastMessageAt: Date.now() - 1000 * 60 * 5,
+    unreadCount: 1,
   },
-  messages: [
-    {
-      id: "1",
-      content: "Hey! I'd love to learn more about Vercel and v0. Can you tell me about them?",
-      sender: "user",
-      timestamp: Date.now() - 1000 * 60 * 10,
-      status: "read",
-    },
-    {
-      id: "2",
-      content:
-        "Hey there! 👋 Vercel is all about making deployment and development seamless. We're the platform for frontend developers, putting the developer experience first. And v0 is our new AI-powered coding assistant that helps you build faster with context-aware suggestions. What specific aspects are you curious about? 🚀",
-      sender: "assistant",
-      timestamp: Date.now() - 1000 * 60 * 8,
-      status: "delivered",
-    },
-  ],
-  lastMessageAt: Date.now() - 1000 * 60 * 8,
-  unreadCount: 0,
-}
+]
 
 export const useMessagesStore = create<MessagesState>((set) => ({
-  conversations: [guillermoConversation],
+  conversations: initialConversations,
   activeConversationId: null,
   addMessage: (conversationId, message) =>
     set((state) => ({
@@ -92,4 +109,42 @@ export const useMessagesStore = create<MessagesState>((set) => ({
           : conv,
       ),
     })),
+  deleteConversation: (conversationId) =>
+    set((state) => ({
+      conversations: state.conversations.filter((c) => c.id !== conversationId),
+      activeConversationId: state.activeConversationId === conversationId ? null : state.activeConversationId,
+    })),
+  deleteMultipleConversations: (ids) =>
+    set((state) => ({
+      conversations: state.conversations.filter((c) => !ids.includes(c.id)),
+      activeConversationId: ids.includes(state.activeConversationId || "") ? null : state.activeConversationId,
+    })),
+  createConversation: (name, initialMessage) =>
+    set((state) => {
+      const newId = `conv-${Date.now()}`
+      const newConv: Conversation = {
+        id: newId,
+        contact: {
+          id: `contact-${Date.now()}`,
+          name: name.trim() || "New Contact",
+          avatar: "/images/contact.webp",
+          isOnline: true,
+        },
+        messages: [
+          {
+            id: `msg-${Date.now()}`,
+            content: initialMessage,
+            sender: "user",
+            timestamp: Date.now(),
+            status: "delivered",
+          },
+        ],
+        lastMessageAt: Date.now(),
+        unreadCount: 0,
+      }
+      return {
+        conversations: [newConv, ...state.conversations],
+        activeConversationId: newId,
+      }
+    }),
 }))
