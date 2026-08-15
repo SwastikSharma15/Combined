@@ -253,11 +253,11 @@ const useAudioStore = create<AudioState>()(immer((set, get) => ({
       
       const nextSong = state.playlist?.[next];
       if (nextSong) {
-        // Add to history if not already the most recent
-        if (state.history[0]?.id !== nextSong.id) {
-          state.history.unshift(nextSong);
-          if (state.history.length > 10) state.history.pop();
-        }
+        // Remove from history if it already exists to prevent duplicates
+        state.history = state.history.filter((song) => song.id !== nextSong.id);
+        // Add to the front of history
+        state.history.unshift(nextSong);
+        if (state.history.length > 10) state.history.pop();
       }
 
       if (state.audio) {
